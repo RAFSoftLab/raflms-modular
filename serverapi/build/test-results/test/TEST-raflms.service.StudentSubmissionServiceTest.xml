@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="raflms.service.StudentSubmissionServiceTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-01-05T00:43:31.324Z" hostname="bojana-Laptop" time="1.055">
+  <properties/>
+  <testcase name="testStartingAsignment()" classname="raflms.service.StudentSubmissionServiceTest" time="1.055"/>
+  <system-out><![CDATA[01:43:26.158 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [raflms.service.StudentSubmissionServiceTest]: StudentSubmissionServiceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+01:43:26.299 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration raflms.RAFLMSServerApp for test class raflms.service.StudentSubmissionServiceTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.8)
+
+2026-01-05T01:43:26.797+01:00  INFO 88318 --- [    Test worker] r.service.StudentSubmissionServiceTest   : Starting StudentSubmissionServiceTest using Java 21.0.9 with PID 88318 (started by bojana in /home/bojana/Documents/projekti/raf-lms/server/raflms/serverapi)
+2026-01-05T01:43:26.799+01:00  INFO 88318 --- [    Test worker] r.service.StudentSubmissionServiceTest   : No active profile set, falling back to 1 default profile: "default"
+2026-01-05T01:43:27.549+01:00  INFO 88318 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-05T01:43:27.630+01:00  INFO 88318 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 69 ms. Found 7 JPA repository interfaces.
+2026-01-05T01:43:28.138+01:00  INFO 88318 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-05T01:43:28.178+01:00  INFO 88318 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.36.Final
+2026-01-05T01:43:28.216+01:00  INFO 88318 --- [    Test worker] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-05T01:43:28.435+01:00  INFO 88318 --- [    Test worker] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-05T01:43:28.462+01:00  INFO 88318 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-05T01:43:28.772+01:00  INFO 88318 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@39a865c1
+2026-01-05T01:43:28.774+01:00  INFO 88318 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-05T01:43:28.813+01:00  WARN 88318 --- [    Test worker] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-05T01:43:28.829+01:00  INFO 88318 --- [    Test worker] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 8.0.44
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-01-05T01:43:29.620+01:00  INFO 88318 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-05T01:43:29.718+01:00  INFO 88318 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-05T01:43:30.046+01:00  INFO 88318 --- [    Test worker] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-01-05T01:43:30.822+01:00  WARN 88318 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-05T01:43:31.304+01:00  INFO 88318 --- [    Test worker] r.service.StudentSubmissionServiceTest   : Started StudentSubmissionServiceTest in 4.804 seconds (process running for 6.157)
+StudentAssignementResponse{gitForkPath='/home/bojana/Documents/projekti/gitrepos/remotegitrepo/OOP/mojsupertest/grupa3/prvitermin/studentrepos/21c4dc5a-d29e-45ba-a5e6-22b2a12f44aa', token='21c4dc5a-d29e-45ba-a5e6-22b2a12f44aa'}
+]]></system-out>
+  <system-err><![CDATA[Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (/home/bojana/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.17.8/f09415827a71be7ed621c7bd02550678f28bc81c/byte-buddy-agent-1.17.8.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+</testsuite>
