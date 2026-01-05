@@ -19,7 +19,7 @@ public class TeacherStubService {
         this.config = config;
         this.testRestClient = new TestRestClient(config.getBaseApiURL());
         this.studentRestClient = new StudentRestClient(config.getBaseApiURL());
-        this.gitClient = new GitTeacherClient(config.getLocalGitRootDir());
+        this.gitClient = new GitTeacherClient();
     }
 
 

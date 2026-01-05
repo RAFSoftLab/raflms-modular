@@ -1,4 +1,4 @@
-package raflms.dtos;
+package raflms.studentstub.dtos;
 
 public class AssignmentResponse {
 

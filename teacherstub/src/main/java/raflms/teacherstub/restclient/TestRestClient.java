@@ -14,13 +14,12 @@ import java.util.List;
 public class TestRestClient {
 
 
-    private TeacherStubConfig restConfig;
-    private RestClient restClient;
+
+    private final RestClient restClient;
 
     private final String TEST_URL_PATH = "/test";
 
     public TestRestClient(String baseURL) {
-        this.restConfig = restConfig;
         restClient = RestClient.builder()
                 .baseUrl(baseURL+TEST_URL_PATH)
                 .build();

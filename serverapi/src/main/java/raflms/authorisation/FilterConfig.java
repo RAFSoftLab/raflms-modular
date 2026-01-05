@@ -10,7 +10,8 @@ public class FilterConfig {
     public FilterRegistrationBean<TokenAuthenticationFilter> tokenAuthenticationFilter() {
         FilterRegistrationBean<TokenAuthenticationFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(new TokenAuthenticationFilter());
-        registrationBean.addUrlPatterns("/student/submission/*"); // Specify the URL patterns to apply the filter
+        registrationBean.addUrlPatterns("/student/submission/submitassigment"); // Specify the URL patterns to apply the filter
+
         return registrationBean;
     }
 }

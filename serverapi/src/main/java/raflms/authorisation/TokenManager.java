@@ -8,10 +8,10 @@ import java.util.UUID;
 @Component
 public class TokenManager {
 
-    private final TokenRepository tokenRepository;
 
-    public TokenManager(TokenRepository tokenRepository) {
-        this.tokenRepository = tokenRepository;
+
+    public TokenManager() {
+
     }
 
     public String generateToken() {

@@ -15,7 +15,7 @@ class TeacherStubServiceTest {
 
     @Test
     public void testAddTest(){
-        boolean rez = service.addTest("mojsupertest", LocalDate.of(2026,6,13),"OOP","ispit");
+        boolean rez = service.addTest("testoop", LocalDate.of(2026,6,13),"OOP","ispit");
         assertTrue(rez);
     }
 
@@ -23,8 +23,8 @@ class TeacherStubServiceTest {
     @Test
     public void testAddAssignment(){
 
-        boolean rez = service.addAssigment( "mojsupertest","grupa4","prvi termin",
-                "/home/bojana/Documents/projekti/zadatak");
+        boolean rez = service.addAssigment( "testoop","grupa1","termin1",
+                "/home/bojana/RAFProjects/projectfolder/dbexporter-test");
         assertTrue(rez);
 
 

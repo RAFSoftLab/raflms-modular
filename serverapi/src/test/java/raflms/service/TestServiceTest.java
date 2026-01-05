@@ -17,7 +17,7 @@ class TestServiceTest {
     @Test
     public void testAddAssignment(){
 
-        AssignmentRequest asReq = new AssignmentRequest("grupa1","prvi termin","mojprvitestOOP");
+        AssignmentRequest asReq = new AssignmentRequest("grupa1","termin1","mojprvitestOOP");
         AssignmentResponse asRes = testService.addAssignment(asReq);
         assertNotNull(asRes);
 

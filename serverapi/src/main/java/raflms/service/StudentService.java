@@ -3,7 +3,6 @@ package raflms.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import raflms.authorisation.Token;
 import raflms.dtos.*;
 import raflms.model.StudentInfo;
 import raflms.model.StudentScheduledForTest;

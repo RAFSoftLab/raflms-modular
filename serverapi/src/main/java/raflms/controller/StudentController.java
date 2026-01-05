@@ -15,12 +15,11 @@ import java.util.List;
 public class StudentController {
 
     private final StudentService studentService;
-    private final StudentSubmissionService studentSubimiisonService;
 
 
-    public StudentController(StudentService studentService, StudentSubmissionService studentSubimiisonService) {
+    public StudentController(StudentService studentService) {
         this.studentService = studentService;
-        this.studentSubimiisonService = studentSubimiisonService;
+
     }
 
     @PostMapping(path="/add")
@@ -45,17 +44,6 @@ public class StudentController {
         return studentService.registerStudentsForTest(st);
 
     }
-
-
-    @PostMapping("/authorizeforasigment")
-    public StudentAssignementResponse authorizeStudentForAssignemnt(@PathVariable StudentStartAssignmentRequest sa) {
-       return studentSubimiisonService.studentStartingAssigment(sa);
-    }
-
-
-
-
-
 
 
 

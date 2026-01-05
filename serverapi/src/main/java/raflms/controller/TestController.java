@@ -43,6 +43,10 @@ public class TestController {
     public AssignmentResponse addAssignment(@RequestBody AssignmentRequest assignment){
         log.info("Adding assignment to server and creating empty repo");
         return testService.addAssignment(assignment);
+    }
 
+    @GetMapping(path="/{testName}/assignments")
+    public List<AssignmentResponse> getAssignemntsForTestName(@PathVariable String testName){
+        return testService.getAssignementsForTestName(testName);
     }
 }

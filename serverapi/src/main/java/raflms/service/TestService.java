@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -86,12 +87,23 @@ public class TestService {
         Assignment ass = new Assignment(a.getTerm(), a.getGroupLabel(),t);
         String gitRepoPath = gitRepoService.createGitRepo(t.getSubject().getShortName(), a.getTestName(), a.getGroupLabel(), a.getTerm());
         if(gitRepoPath==null){
-            log.error("Trying to add assignment, cannot create rit repo");
+            log.error("Trying to add assignment, cannot create git repo");
         }
         ass.setGitRepoPath(gitRepoPath);
         Assignment as = assignmentRepo.save(ass);
         AssignmentResponse assRes = new AssignmentResponse(as.getId(),as.getGroupLabel(), as.getTerm(), as.getTest().getTestName(), as.getTest().getId(), as.getTest().getSubject().getShortName(), as.getGitRepoPath());
         return assRes;
+    }
+
+    public List<AssignmentResponse> getAssignementsForTestName(String testName){
+        List<Assignment> ass = assignmentRepo.getAssignemntsForTestName(testName);
+        if(ass==null || ass.isEmpty())
+            return List.of();
+        else{
+            List<AssignmentResponse> retVal = ass.stream().map(a->new AssignmentResponse(a.getId(), a.getGroupLabel(),a.getTerm(),a.getTest().getTestName()
+                    ,a.getTest().getId(), a.getTest().getSubject().getShortName(),a.getGitRepoPath())).toList();
+            return retVal;
+        }
     }
 
 

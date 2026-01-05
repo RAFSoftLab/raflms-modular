@@ -1,14 +1,14 @@
 package raflms.dtos;
 
-public class StudentAssignementResponse {
+public class StudentAssignmentResponse {
 
     private String gitForkPath;
     private String token;
 
-    public StudentAssignementResponse() {
+    public StudentAssignmentResponse() {
     }
 
-    public StudentAssignementResponse(String gitForkPath, String token) {
+    public StudentAssignmentResponse(String gitForkPath, String token) {
         this.gitForkPath = gitForkPath;
         this.token = token;
     }

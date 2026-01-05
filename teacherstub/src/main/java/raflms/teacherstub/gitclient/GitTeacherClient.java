@@ -17,10 +17,10 @@ import java.nio.file.StandardCopyOption;
 
 public class GitTeacherClient {
 
-    private final String localGitRepoPath;
 
-    public GitTeacherClient(String localGitRepoPath) {
-        this.localGitRepoPath = localGitRepoPath;
+
+    public GitTeacherClient() {
+
     }
 
     public boolean pushAssignment(String remoteRepoPath, String assignmentProjectDir){

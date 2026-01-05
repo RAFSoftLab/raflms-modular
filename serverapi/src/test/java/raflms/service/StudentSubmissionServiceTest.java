@@ -3,10 +3,8 @@ package raflms.service;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import raflms.dtos.StudentAssignementResponse;
+import raflms.dtos.StudentAssignmentResponse;
 import raflms.dtos.StudentStartAssignmentRequest;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class StudentSubmissionServiceTest {
@@ -16,8 +14,8 @@ class StudentSubmissionServiceTest {
 
         @Test
         public void testStartingAsignment(){
-            StudentStartAssignmentRequest ssa = new StudentStartAssignmentRequest(4,"2019","RN","101","mojsupertest","grupa3","prvi termin");
-            StudentAssignementResponse res = studSubmissionService.studentStartingAssigment(ssa);
+            StudentStartAssignmentRequest ssa = new StudentStartAssignmentRequest(4,"2019","RN","101","mojprvitestOOP","grupa1","termin1");
+            StudentAssignmentResponse res = studSubmissionService.studentStartingAssigment(ssa);
             System.out.println(res);
 
         }

@@ -1,14 +1,11 @@
-package raflms.teacherstub.config;
+package raflms.studentstub.config;
 
-public class TeacherStubConfig {
+public class StudentStubConfig {
 
     private String baseApiURL;
 
-
-
-    public TeacherStubConfig(String baseApiURL) {
+    public StudentStubConfig(String baseApiURL) {
         this.baseApiURL = baseApiURL;
-
     }
 
     public String getBaseApiURL() {
@@ -18,8 +15,4 @@ public class TeacherStubConfig {
     public void setBaseApiURL(String baseApiURL) {
         this.baseApiURL = baseApiURL;
     }
-
-
-
-
 }

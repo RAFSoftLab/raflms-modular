@@ -1,17 +1,30 @@
 package raflms.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import raflms.dtos.StudentAssignmentResponse;
+import raflms.dtos.StudentStartAssignmentRequest;
+import raflms.service.StudentSubmissionService;
 
 @RestController
 @RequestMapping("/student/submission")
 public class StudentSubmissinsController {
 
-    @PostMapping(path="/start")
-    public boolean startAssigment(){
-        return true;
+    private final StudentSubmissionService studentSubimiisonService;
+
+    public StudentSubmissinsController(StudentSubmissionService studentSubimiisonService) {
+        this.studentSubimiisonService = studentSubimiisonService;
     }
+
+    @PostMapping("/authorizeforasignment")
+    public StudentAssignmentResponse authorizeStudentForAssignemnt(@RequestBody StudentStartAssignmentRequest sa) {
+        return studentSubimiisonService.studentStartingAssigment(sa);
+    }
+
+    @PostMapping("/submitassigment")
+    public StudentAssignmentResponse submitAssigment() {
+        return null;
+    }
+
 
 
 }

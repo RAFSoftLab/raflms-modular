@@ -4,7 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import raflms.authorisation.TokenManager;
-import raflms.dtos.StudentAssignementResponse;
+import raflms.dtos.StudentAssignmentResponse;
 import raflms.dtos.StudentStartAssignmentRequest;
 import raflms.gitservice.GitRepoService;
 import raflms.model.Assignment;
@@ -39,7 +39,7 @@ public class StudentSubmissionService {
 
 
     // ako student ne postoji, dodajemo ga, u krajnjoj verziji treba uvesti provere da ne moze da radi ako nije unet
-    public StudentAssignementResponse studentStartingAssigment(StudentStartAssignmentRequest ssa){
+    public StudentAssignmentResponse studentStartingAssigment(StudentStartAssignmentRequest ssa){
         StudentInfo si = studentInfoRepo.getStudentInfoForIndex(ssa.getIndexNumber(),ssa.getStartYear(),ssa.getStudyProgramShortName());
         if(si==null){
             log.warn(String.format("Student cannot be found, adding student with index = %s %d/%s",ssa.getStudyProgramShortName(), ssa.getIndexNumber(),ssa.getStartYear()));
@@ -63,7 +63,7 @@ public class StudentSubmissionService {
         // StudentInfo student, Assignment assignment, String forkPath, String studentGroup, String token
         StudentSubmission ss = new StudentSubmission(si,as,studentRepoPath,ssa.getStudentGroup(),token);
         ss = studSubmissionRepo.save(ss);
-        StudentAssignementResponse res = new StudentAssignementResponse(studentRepoPath,token);
+        StudentAssignmentResponse res = new StudentAssignmentResponse(studentRepoPath,token);
         return res;
     }
 
