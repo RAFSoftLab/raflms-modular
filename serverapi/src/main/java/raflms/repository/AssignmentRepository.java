@@ -15,4 +15,7 @@ public interface AssignmentRepository extends ListCrudRepository<Assignment,Long
     @Query("select a from Assignment a where a.test.testName like :testName")
     List<Assignment> getAssignemntsForTestName(String testName);
 
+    @Query("select a from Assignment a where a.repoPath like :repoPath")
+    Assignment getAssignmentForRepoPath(String repoPath);
+
 }

@@ -2,7 +2,9 @@ package raflms.teacherstub.api;
 
 import raflms.teacherstub.config.TeacherStubConfig;
 import raflms.teacherstub.dtos.*;
-import raflms.teacherstub.gitclient.GitTeacherClient;
+import raflms.teacherstub.projectrepoclient.TeacherRepoClient;
+import raflms.teacherstub.projectrepoclient.impl.FileRepoClient;
+import raflms.teacherstub.projectrepoclient.impl.GitRepoTeacherClient;
 import raflms.teacherstub.restclient.StudentRestClient;
 import raflms.teacherstub.restclient.TestRestClient;
 
@@ -13,20 +15,20 @@ public class TeacherStubService {
     private final TeacherStubConfig config;
     private final TestRestClient testRestClient;
     private final StudentRestClient studentRestClient;
-    private final GitTeacherClient gitClient;
+    private final TeacherRepoClient repoClient;
 
     public TeacherStubService(TeacherStubConfig config) {
         this.config = config;
         this.testRestClient = new TestRestClient(config.getBaseApiURL());
         this.studentRestClient = new StudentRestClient(config.getBaseApiURL());
-        this.gitClient = new GitTeacherClient();
+        this.repoClient = new FileRepoClient();
     }
 
 
     public boolean addAssigment(String testName, String group, String term, String projectRootDir){
         AssignmentRequest assReq = new AssignmentRequest(group, term, testName);
         AssignmentResponse assRes = testRestClient.addAssignment(assReq);
-        gitClient.pushAssignment(assRes.getGitRepoPath(),projectRootDir);
+        repoClient.pushAssignment(assRes.getGitRepoPath(),projectRootDir);
         return true;
     }
 

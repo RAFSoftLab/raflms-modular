@@ -1,4 +1,4 @@
-package raflms.gitservice;
+package raflms.projectreposervice.impl;
 
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -13,15 +13,13 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.stereotype.Service;
 import raflms.conf.RAFLMSProperties;
-import raflms.model.Assignment;
+import raflms.projectreposervice.ProjectRepoService;
 
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 
 @Service
-public class GitRepoService {
+public class GitRepoService implements ProjectRepoService {
 
     private static final Logger log = LoggerFactory.getLogger(GitRepoService.class);
     private final RAFLMSProperties raflmsProperties;
@@ -33,11 +31,11 @@ public class GitRepoService {
     /**
      * @return repo url
      */
-    public String createGitRepo(String subjectShortName, String testName) {
+    public String createRepo(String subjectShortName, String testName) {
         try {
             String path = raflmsProperties.getGitrootdir() + "/" + subjectShortName + "/" + testName;
             path = path.replaceAll(" ", "");
-            Git git = Git.init().setDirectory(new File(path)).call();
+            Git git = Git.init().setBare(true).setDirectory(new File(path)).call();
             Repository repo = git.getRepository();
             return repo.getDirectory().getAbsolutePath();
         } catch (Exception e) {
@@ -47,11 +45,11 @@ public class GitRepoService {
         return null;
     }
 
-    public String createGitRepo(String subjectShortName, String testName, String groupLabel, String term) {
+    public String createRepo(String subjectShortName, String testName, String groupLabel, String term) {
         try {
 
-            String path = createGitRepoPath(subjectShortName, testName, groupLabel, term);
-            Git git = Git.init().setDirectory(new File(path)).call();
+            String path = createRepoPath(subjectShortName, testName, groupLabel, term);
+            Git git = Git.init().setBare(true).setDirectory(new File(path)).call();
             Repository repo = git.getRepository();
             return repo.getDirectory().getAbsolutePath();
         } catch (Exception e) {
@@ -61,7 +59,7 @@ public class GitRepoService {
         return null;
     }
 
-    public String createGitRepoPath(String subjectShortName, String testName, String groupLabel, String term) {
+    public String createRepoPath(String subjectShortName, String testName, String groupLabel, String term) {
         String path = raflmsProperties.getGitrootdir() + "/" + subjectShortName + "/" + testName + "/" + groupLabel + "/" + term;
         path = path.replaceAll(" ", "");
         return path;

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import raflms.authorisation.TokenManager;
 import raflms.dtos.StudentAssignmentResponse;
 import raflms.dtos.StudentStartAssignmentRequest;
-import raflms.gitservice.GitRepoService;
+import raflms.projectreposervice.impl.GitRepoService;
 import raflms.model.Assignment;
 import raflms.model.StudentInfo;
 import raflms.model.StudentSubmission;
@@ -54,12 +54,12 @@ public class StudentSubmissionService {
             return null;
         }
         Assignment as = ass.get(0);
-        if(!gitReoService.getRepoExists(as.getGitRepoPath())){
-            log.error(String.format("No git repo found for assignment testName =%s, group=%s, term=%s, gitRepoPatj = %s", ssa.getTestName(), ssa.getGroup(), ssa.getTerm(), as.getGitRepoPath()));
+        if(!gitReoService.getRepoExists(as.getRepoPath())){
+            log.error(String.format("No git repo found for assignment testName =%s, group=%s, term=%s, gitRepoPatj = %s", ssa.getTestName(), ssa.getGroup(), ssa.getTerm(), as.getRepoPath()));
             return null;
         }
         String token = tokenManager.generateToken();
-        String studentRepoPath = gitReoService.createStudentRepo(as.getGitRepoPath(),token);
+        String studentRepoPath = gitReoService.createStudentRepo(as.getRepoPath(),token);
         // StudentInfo student, Assignment assignment, String forkPath, String studentGroup, String token
         StudentSubmission ss = new StudentSubmission(si,as,studentRepoPath,ssa.getStudentGroup(),token);
         ss = studSubmissionRepo.save(ss);

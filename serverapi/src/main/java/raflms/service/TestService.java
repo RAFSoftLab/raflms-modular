@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import raflms.dtos.AssignmentRequest;
 import raflms.dtos.AssignmentResponse;
 import raflms.dtos.TestDTO;
-import raflms.gitservice.GitRepoService;
+import raflms.projectreposervice.ProjectRepoService;
 import raflms.model.Assignment;
 import raflms.model.Subject;
 import raflms.model.Test;
@@ -14,11 +14,6 @@ import raflms.repository.AssignmentRepository;
 import raflms.repository.SubjectRepository;
 import raflms.repository.TestRepository;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,13 +24,13 @@ public class TestService {
     private final TestRepository testRepo;
     private final AssignmentRepository assignmentRepo;
     private final SubjectRepository subjectRepo;
-    private final GitRepoService gitRepoService;
+    private final ProjectRepoService projectRepoService;
 
-    public TestService(TestRepository testRepo, AssignmentRepository assignmentRepo, SubjectRepository subjectRepo, GitRepoService gitRepoService) {
+    public TestService(TestRepository testRepo, AssignmentRepository assignmentRepo, SubjectRepository subjectRepo, ProjectRepoService projectRepoService) {
         this.testRepo = testRepo;
         this.assignmentRepo = assignmentRepo;
         this.subjectRepo = subjectRepo;
-        this.gitRepoService = gitRepoService;
+        this.projectRepoService = projectRepoService;
     }
 
     public Boolean addTest(TestDTO testDTO){
@@ -84,14 +79,20 @@ public class TestService {
             log.error("Trying to add assignment, there is no test for the given id or test name");
             return null;
         }
-        Assignment ass = new Assignment(a.getTerm(), a.getGroupLabel(),t);
-        String gitRepoPath = gitRepoService.createGitRepo(t.getSubject().getShortName(), a.getTestName(), a.getGroupLabel(), a.getTerm());
-        if(gitRepoPath==null){
-            log.error("Trying to add assignment, cannot create git repo");
+        List<Assignment> existingAss = assignmentRepo.findAssignemnt(a.getTestName(), a.getGroupLabel(),a.getTerm());
+        Assignment ass = null;
+        if(!existingAss.isEmpty())
+            ass = existingAss.get(0);
+        else {
+            ass = new Assignment(a.getTerm(), a.getGroupLabel(), t);
         }
-        ass.setGitRepoPath(gitRepoPath);
+        String repoPath = projectRepoService.createRepo(t.getSubject().getShortName(), a.getTestName(), a.getGroupLabel(), a.getTerm());
+        if(repoPath==null){
+            log.error("Trying to add assignment, cannot create repo");
+        }
+        ass.setRepoPath(repoPath);
         Assignment as = assignmentRepo.save(ass);
-        AssignmentResponse assRes = new AssignmentResponse(as.getId(),as.getGroupLabel(), as.getTerm(), as.getTest().getTestName(), as.getTest().getId(), as.getTest().getSubject().getShortName(), as.getGitRepoPath());
+        AssignmentResponse assRes = new AssignmentResponse(as.getId(),as.getGroupLabel(), as.getTerm(), as.getTest().getTestName(), as.getTest().getId(), as.getTest().getSubject().getShortName(), as.getRepoPath());
         return assRes;
     }
 
@@ -101,10 +102,18 @@ public class TestService {
             return List.of();
         else{
             List<AssignmentResponse> retVal = ass.stream().map(a->new AssignmentResponse(a.getId(), a.getGroupLabel(),a.getTerm(),a.getTest().getTestName()
-                    ,a.getTest().getId(), a.getTest().getSubject().getShortName(),a.getGitRepoPath())).toList();
+                    ,a.getTest().getId(), a.getTest().getSubject().getShortName(),a.getRepoPath())).toList();
             return retVal;
         }
     }
+
+    public void updateRepoPath(String oldRepoPath, String newRepoPath){
+        Assignment as = assignmentRepo.getAssignmentForRepoPath(oldRepoPath);
+        as.setRepoPath(newRepoPath);
+        assignmentRepo.save(as);
+    }
+
+
 
 
 

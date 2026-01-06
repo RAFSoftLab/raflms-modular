@@ -13,7 +13,7 @@ public class Assignment {
 
     private String groupLabel; // grupa1, grupa2 i sl
 
-    private String gitRepoPath;
+    private String repoPath;
 
     @ManyToOne
     private Test test;
@@ -53,12 +53,12 @@ public class Assignment {
         this.groupLabel = groupLabel;
     }
 
-    public String getGitRepoPath() {
-        return gitRepoPath;
+    public String getRepoPath() {
+        return repoPath;
     }
 
-    public void setGitRepoPath(String gitRepoPath) {
-        this.gitRepoPath = gitRepoPath;
+    public void setRepoPath(String repoPath) {
+        this.repoPath = repoPath;
     }
 
     public int getMaxPoints() {

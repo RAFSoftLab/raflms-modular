@@ -1,14 +1,15 @@
-package raflms.studentstub.gitclient;
+package raflms.studentstub.repoclient.impl;
 
 import org.eclipse.jgit.api.Git;
+import raflms.studentstub.repoclient.StudentRepoClient;
 
 
 import java.io.File;
 
-public class GitStudentClient {
+public class GitStudentClient implements StudentRepoClient {
 
 
-    public boolean cloneAssigmentRepo(String assigmentRepoPath, String projectRoot){
+    public boolean retrieveAssignmentProject(String assigmentRepoPath, String projectRoot){
         try {
 
             File f = new File(projectRoot);
@@ -23,6 +24,11 @@ public class GitStudentClient {
 
         }
 
+    }
+
+    @Override
+    public boolean submitProject(String studentRepoPath, String projectRoot) {
+        return false;
     }
 
 

@@ -2,23 +2,23 @@ package raflms.dtos;
 
 public class StudentAssignmentResponse {
 
-    private String gitForkPath;
+    private String studentRepoPath;
     private String token;
 
     public StudentAssignmentResponse() {
     }
 
-    public StudentAssignmentResponse(String gitForkPath, String token) {
-        this.gitForkPath = gitForkPath;
+    public StudentAssignmentResponse(String studentRepoPath, String token) {
+        this.studentRepoPath = studentRepoPath;
         this.token = token;
     }
 
-    public String getGitForkPath() {
-        return gitForkPath;
+    public String getStudentRepoPath() {
+        return studentRepoPath;
     }
 
-    public void setGitForkPath(String gitForkPath) {
-        this.gitForkPath = gitForkPath;
+    public void setStudentRepoPath(String studentRepoPath) {
+        this.studentRepoPath = studentRepoPath;
     }
 
     public String getToken() {
@@ -32,7 +32,7 @@ public class StudentAssignmentResponse {
     @Override
     public String toString() {
         return "StudentAssignementResponse{" +
-                "gitForkPath='" + gitForkPath + '\'' +
+                "gitForkPath='" + studentRepoPath + '\'' +
                 ", token='" + token + '\'' +
                 '}';
     }
