@@ -5,7 +5,6 @@ import raflms.teacherstub.config.TeacherStubConfig;
 public class ConfigFactory {
 
     public static TeacherStubConfig createConfig(){
-        return new TeacherStubConfig("http://localhost:8091");
-
+        return new TeacherStubConfig("http://localhost:8092");
     }
 }

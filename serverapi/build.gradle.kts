@@ -8,6 +8,9 @@ group = "raf.rs"
 version = "1.0-SNAPSHOT"
 
 
+tasks.jar {
+    archiveFileName.set("raflms-serverapi.jar")
+}
 
 repositories {
     mavenCentral()
@@ -27,6 +30,7 @@ dependencies {
     implementation("commons-io:commons-io:2.21.0")
 
 }
+
 
 tasks.test {
     useJUnitPlatform()
