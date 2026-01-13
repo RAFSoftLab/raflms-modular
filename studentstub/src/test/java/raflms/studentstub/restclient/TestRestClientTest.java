@@ -23,7 +23,7 @@ class TestRestClientTest {
     }
 
     @Test
-    public void testGetAssigmnets(){
+    public void testGetAssignments(){
         List<AssignmentResponse> ass = testRestClient.getAssignmentsForTestName("mojsupertest");
         for(AssignmentResponse as:ass){
             System.out.println(as.toString());

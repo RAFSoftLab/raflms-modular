@@ -3,10 +3,31 @@ package raflms.studentstub.api;
 
 import raflms.studentstub.config.StudentStubConfig;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 public class ConfigFactory {
 
-    public static StudentStubConfig createConfig(){
-        return new StudentStubConfig("http://localhost:8092");
+    private static Properties properties = loadProperties("studentstub.properties");
 
+    public static StudentStubConfig createConfig(){
+        return new StudentStubConfig(properties.getProperty("baseurl.api"));
+    }
+
+    private static Properties loadProperties(String fileName) {
+        Properties prop = new Properties();
+        try (InputStream inputStream = ConfigFactory.class.getClassLoader().getResourceAsStream(fileName)) {
+            if (inputStream != null) {
+                prop.load(inputStream);
+            } else {
+                throw new FileNotFoundException("property file '" + fileName + "' not found in the classpath");
+            }
+        } catch (IOException e) {
+            System.err.println("Exception while loading properties: " + e.getMessage());
+            return null;
+        }
+        return prop;
     }
 }
