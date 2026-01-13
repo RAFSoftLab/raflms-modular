@@ -9,7 +9,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TestRestClientTest {
+class RestClientTest {
 
     private final TestRestClient testRestClient = new TestRestClient(ConfigFactory.createConfig().getBaseApiURL());
 
@@ -24,7 +24,7 @@ class TestRestClientTest {
 
     @Test
     public void testGetAssignments(){
-        List<AssignmentResponse> ass = testRestClient.getAssignmentsForTestName("mojsupertest");
+        List<AssignmentResponse> ass = testRestClient.getAssignmentsForTestName("testoop");
         for(AssignmentResponse as:ass){
             System.out.println(as.toString());
         }
