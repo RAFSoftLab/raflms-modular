@@ -8,7 +8,7 @@ public interface StudentRepoClient {
      * @param projectRoot
      * @return Putanju do zip fajla skinutog projekta
      */
-    String retrieveAssignmentProject(String assigmentRepoPath, String projectRoot);
+    boolean retrieveAssignmentProject(String assigmentRepoPath, String projectRoot);
 
     boolean submitAssignmentProject(String studentRepoPath, String projectRoot, Boolean isFinalSubmission);
 }

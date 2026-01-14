@@ -9,7 +9,7 @@ import java.io.File;
 public class GitStudentClient implements StudentRepoClient {
 
 
-    public String retrieveAssignmentProject(String assigmentRepoPath, String projectRoot){
+    public boolean retrieveAssignmentProject(String assigmentRepoPath, String projectRoot){
         try {
 
             File f = new File(projectRoot);
@@ -19,7 +19,7 @@ public class GitStudentClient implements StudentRepoClient {
                     .call();
             git.close();
             // TODO ispraviti
-            return git.getRepository().getBranch();
+            return true;
         } catch (Exception e) {
             throw new RuntimeException(e);
 

@@ -16,8 +16,12 @@ public class FileRepoClient implements StudentRepoClient {
     }
 
     @Override
-    public String retrieveAssignmentProject(String assigmentRepoPath, String projectRoot) {
-        return projectFileClient.downloadFile(assigmentRepoPath,projectRoot);
+    public boolean retrieveAssignmentProject(String assigmentRepoPath, String projectRoot) {
+        String assignmetFilePath = projectFileClient.downloadFile(assigmentRepoPath,projectRoot);
+        File assignmentZipFile = new File(assignmetFilePath);
+        ZipUtil.unpack(assignmentZipFile, new File(projectRoot));
+        assignmentZipFile.delete();
+        return true;
     }
 
     @Override

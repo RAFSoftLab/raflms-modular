@@ -1,6 +1,6 @@
 package raflms.studentstub.api;
 
-import org.zeroturnaround.zip.ZipUtil;
+
 import raflms.studentstub.config.StudentStubConfig;
 import raflms.studentstub.dtos.StudentAssignmentResponse;
 import raflms.studentstub.dtos.StudentStartAssignmentRequest;
@@ -8,8 +8,6 @@ import raflms.studentstub.exceptions.NotAllowedToSubmitProject;
 import raflms.studentstub.repoclient.StudentRepoClient;
 import raflms.studentstub.repoclient.impl.FileRepoClient;
 import raflms.studentstub.restclient.AssigmentRestClient;
-
-import java.io.File;
 
 public class StudentStubService {
 
@@ -41,11 +39,8 @@ public class StudentStubService {
             // TODO log
             return false;
         }
-        String assignmetFilePath = studentRepoClient.retrieveAssignmentProject(response.getAssignmentPath(),projectRoot);
-        File assignmentZipFile = new File(assignmetFilePath);
-        ZipUtil.unpack(assignmentZipFile, new File(projectRoot));
-        assignmentZipFile.delete();
-        return true;
+        return studentRepoClient.retrieveAssignmentProject(response.getAssignmentPath(),projectRoot);
+
     }
 
     public boolean submitAssignment(Boolean isFinalSubmission) throws NotAllowedToSubmitProject {

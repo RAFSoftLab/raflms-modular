@@ -19,7 +19,7 @@ class StudentStubServiceTest {
 
     @Test
     public void submitAssignment(){
-        studentService.setLoggedStudentRepoPath("/home/bojana/raflms/remote/projectfolder/OOP/testoop/grupa4/termin1/studentrepos/4c527381-491e-4f7b-afec-2f77e6061269");
+        studentService.setLoggedStudentRepoPath("/home/user/raflms/projectsrootdir/OOP/testoop/grupa4/termin1/studentrepos/94114516-f102-409f-a4f9-ef15205cb982");
         studentService.setProjectRoot("/home/bojana/raflms/studentprojectroot");
         boolean ok = studentService.submitAssignment(true);
         assertTrue(ok);
