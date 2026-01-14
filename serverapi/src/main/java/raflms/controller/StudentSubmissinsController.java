@@ -9,15 +9,15 @@ import raflms.service.StudentSubmissionService;
 @RequestMapping("/student/submission")
 public class StudentSubmissinsController {
 
-    private final StudentSubmissionService studentSubimiisonService;
+    private final StudentSubmissionService studentSubimisionService;
 
-    public StudentSubmissinsController(StudentSubmissionService studentSubimiisonService) {
-        this.studentSubimiisonService = studentSubimiisonService;
+    public StudentSubmissinsController(StudentSubmissionService studentSubimisionService) {
+        this.studentSubimisionService = studentSubimisionService;
     }
 
     @PostMapping("/authorizeforasignment")
     public StudentAssignmentResponse authorizeStudentForAssignemnt(@RequestBody StudentStartAssignmentRequest sa) {
-        return studentSubimiisonService.studentStartingAssigment(sa);
+        return studentSubimisionService.studentStartingAssigment(sa);
     }
 
     @PostMapping("/submitassigment")

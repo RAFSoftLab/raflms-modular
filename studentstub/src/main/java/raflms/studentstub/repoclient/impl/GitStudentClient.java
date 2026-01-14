@@ -28,7 +28,7 @@ public class GitStudentClient implements StudentRepoClient {
     }
 
     @Override
-    public boolean submitProject(String studentRepoPath, String projectRoot) {
+    public boolean submitAssignmentProject(String studentRepoPath, String projectRoot, Boolean isFinalSubmission) {
         return false;
     }
 

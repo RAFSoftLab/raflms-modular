@@ -1,14 +1,12 @@
 package raflms.studentstub.api;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.zeroturnaround.zip.ZipUtil;
 import raflms.studentstub.config.StudentStubConfig;
 import raflms.studentstub.dtos.StudentAssignmentResponse;
 import raflms.studentstub.dtos.StudentStartAssignmentRequest;
+import raflms.studentstub.exceptions.NotAllowedToSubmitProject;
 import raflms.studentstub.repoclient.StudentRepoClient;
 import raflms.studentstub.repoclient.impl.FileRepoClient;
-import raflms.studentstub.repoclient.impl.GitStudentClient;
 import raflms.studentstub.restclient.AssigmentRestClient;
 
 import java.io.File;
@@ -22,6 +20,9 @@ public class StudentStubService {
 
     private String loggedStudentRepoPath = null;
     private String loggedStudentToken = null;
+    private String projectRoot = null;
+
+
 
     public StudentStubService(StudentStubConfig config) {
         this.config = config;
@@ -32,13 +33,14 @@ public class StudentStubService {
     public boolean startAssigment(StudentStartAssignmentRequest request, String projectRoot){
         StudentAssignmentResponse response = assRestClient.startAssignment(request);
         if(response!=null) {
-            loggedStudentToken = response.getToken();
-            loggedStudentRepoPath = response.getStudentFolderPath();
+            this.loggedStudentToken = response.getToken();
+            this.loggedStudentRepoPath = response.getStudentFolderPath();
+            this.projectRoot = projectRoot;
+
         }else{
             // TODO log
             return false;
         }
-
         String assignmetFilePath = studentRepoClient.retrieveAssignmentProject(response.getAssignmentPath(),projectRoot);
         File assignmentZipFile = new File(assignmetFilePath);
         ZipUtil.unpack(assignmentZipFile, new File(projectRoot));
@@ -46,4 +48,32 @@ public class StudentStubService {
         return true;
     }
 
+    public boolean submitAssignment(Boolean isFinalSubmission) throws NotAllowedToSubmitProject {
+        if(loggedStudentRepoPath==null){
+            throw new NotAllowedToSubmitProject("Student nije prijavljen, ne može da pošalje zadatak");
+        }
+        if(isFinalSubmission) {
+            boolean ok = studentRepoClient.submitAssignmentProject(loggedStudentRepoPath, projectRoot, true);
+            if(ok) {
+                this.loggedStudentRepoPath = null;
+                this.loggedStudentToken = null;
+            }
+            return ok;
+        }else{
+            return studentRepoClient.submitAssignmentProject(loggedStudentRepoPath, projectRoot, false);
+        }
+    }
+
+    // privremeno ovde stoji zbog testiranja
+    public void setLoggedStudentRepoPath(String path) {
+        this.loggedStudentRepoPath = path;
+    }
+
+    public String getLoggedStudentRepoPath() {
+        return loggedStudentRepoPath;
+    }
+
+    public void setProjectRoot(String projectRoot) {
+        this.projectRoot = projectRoot;
+    }
 }

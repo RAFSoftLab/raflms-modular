@@ -38,7 +38,7 @@ public class ProjectFileClient {
 
 
         Boolean responseBody = restClient.post()
-                .uri("/upload")
+                .uri("/upload/assignment")
                 .contentType(MediaType.MULTIPART_FORM_DATA)
                 .body(body)
                 .retrieve()

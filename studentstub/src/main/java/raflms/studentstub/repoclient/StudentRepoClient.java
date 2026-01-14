@@ -10,5 +10,5 @@ public interface StudentRepoClient {
      */
     String retrieveAssignmentProject(String assigmentRepoPath, String projectRoot);
 
-    boolean submitProject(String studentRepoPath, String projectRoot);
+    boolean submitAssignmentProject(String studentRepoPath, String projectRoot, Boolean isFinalSubmission);
 }

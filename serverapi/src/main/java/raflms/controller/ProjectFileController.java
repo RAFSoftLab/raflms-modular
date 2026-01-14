@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import raflms.service.StudentSubmissionService;
 import raflms.service.TestService;
 
 
@@ -28,15 +29,17 @@ public class ProjectFileController {
     private static final Logger log = LoggerFactory.getLogger(ProjectFileController.class);
 
     private final TestService testService;
+    private final StudentSubmissionService studentSubmissionService;
 
-    public ProjectFileController(TestService testService) {
+    public ProjectFileController(TestService testService, StudentSubmissionService studentSubmissionService) {
         this.testService = testService;
+        this.studentSubmissionService = studentSubmissionService;
     }
 
-    @PostMapping("/upload")
-    public Boolean uploadFile(@RequestParam String repoPath, @RequestParam("file") MultipartFile file) {
+    @PostMapping("/upload/assignment")
+    public Boolean uploadAssignemntFile(@RequestParam String repoPath, @RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {
-            log.error("Upload file failed, empty file");
+            log.error("Upload assignment file failed, empty file");
             return false;
         }
         try {
@@ -47,6 +50,27 @@ public class ProjectFileController {
             Files.write(path, bytes);
             log.info("File successfully uploaded " + file.getOriginalFilename());
             testService.updateRepoPath(repoPath, newRepoPath);
+            return true;
+
+        } catch (Exception e) {
+            log.error("Upload file failed:  "+e.getMessage());
+            return false;
+        }
+    }
+
+    @PostMapping("/upload/studentproject")
+    public Boolean uploadStudentProjectFile(@RequestParam String repoPath, @RequestParam Boolean isFinalSubmission, @RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
+            log.error("Upload student project file failed, empty file");
+            return false;
+        }
+        try {
+            FileUtils.cleanDirectory(new File(repoPath));
+            byte[] bytes = file.getBytes();
+            String newRepoPath = repoPath + "/" + file.getOriginalFilename();
+            Path path = Paths.get(newRepoPath);
+            Files.write(path, bytes);
+            log.info("File successfully uploaded " + file.getOriginalFilename());
             return true;
 
         } catch (Exception e) {
@@ -79,7 +103,6 @@ public class ProjectFileController {
         headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"");
         headers.add(HttpHeaders.CONTENT_TYPE, mediaType.toString());
         headers.add(HttpHeaders.CONTENT_LENGTH, String.valueOf(file.length()));
-
 
         return ResponseEntity.ok()
                 .headers(headers)

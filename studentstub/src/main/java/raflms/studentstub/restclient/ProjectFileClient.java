@@ -33,27 +33,7 @@ public class ProjectFileClient {
                 .build();
     }
 
-    public Boolean uploadFile(String localFilePath, String remoteRepoPath) {
 
-        File file = new File(localFilePath);
-        Resource fileResource = new FileSystemResource(file);
-
-
-        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-
-        body.add("file", fileResource);
-        body.add("repoPath", remoteRepoPath);
-
-
-        Boolean responseBody = restClient.post()
-                .uri("/upload")
-                .contentType(MediaType.MULTIPART_FORM_DATA)
-                .body(body)
-                .retrieve()
-                .body(Boolean.class);
-
-        return responseBody;
-    }
 
 
     public String downloadFile(String assignmentRepoPath, String projectRoot){
@@ -70,4 +50,30 @@ public class ProjectFileClient {
             throw new RuntimeException(e);
         }
     }
+
+    public Boolean uploadFile(String localFilePath, String remoteRepoPath, Boolean isFinalSubmission) {
+
+        File file = new File(localFilePath);
+        Resource fileResource = new FileSystemResource(file);
+
+
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+
+        body.add("file", fileResource);
+
+
+        Boolean responseBody = restClient.post()
+                .uri("/upload/studentproject?repoPath={repoPath}&isFinalSubmission={isFinalSubmission}",remoteRepoPath,isFinalSubmission)
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .body(body)
+                .retrieve()
+                .body(Boolean.class);
+
+        return responseBody;
+    }
+
+
+
+
+
 }

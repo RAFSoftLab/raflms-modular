@@ -23,8 +23,8 @@ class TeacherStubServiceTest {
     @Test
     public void testAddAssignment(){
 
-        boolean rez = service.addAssigment( "testoop","grupa1","termin1",
-                "/home/bojana/RAFProjects/projectfolder/dbexporter-test");
+        boolean rez = service.addAssigment( "testoop","grupa4","termin1",
+                "/home/bojana/Documents/kol1");
         assertTrue(rez);
 
 
