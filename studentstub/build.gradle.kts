@@ -21,6 +21,7 @@ dependencies {
     implementation("jakarta.xml.bind:jakarta.xml.bind-api:3.0.1")
 
     implementation("org.eclipse.jgit:org.eclipse.jgit:7.5.0.202512021534-r")
+    implementation("org.zeroturnaround:zt-zip:1.17")
 }
 
 tasks.test {

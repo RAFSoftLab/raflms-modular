@@ -55,7 +55,7 @@ public class ProjectFileController {
         }
     }
 
-    @GetMapping("/download/")
+    @GetMapping("/download")
     public ResponseEntity<Resource> downloadFile(@RequestParam String filePath) {
 
         File file = new File(filePath);
@@ -73,12 +73,11 @@ public class ProjectFileController {
 
         MediaType mediaType = MediaType.TEXT_PLAIN; // Example
 
-        // 3. Set HTTP headers for file download
+
         HttpHeaders headers = new HttpHeaders();
-        // The "attachment" disposition forces a download prompt in the browser
+
         headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"");
         headers.add(HttpHeaders.CONTENT_TYPE, mediaType.toString());
-        // Set the content length to help the browser track download progress
         headers.add(HttpHeaders.CONTENT_LENGTH, String.valueOf(file.length()));
 
 

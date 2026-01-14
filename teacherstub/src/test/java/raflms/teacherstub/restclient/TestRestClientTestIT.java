@@ -17,6 +17,9 @@ class TestRestClientTestIT {
 
         TestRestClient testClient = new TestRestClient(ConfigFactory.createConfig().getBaseApiURL());
         List<TestDTO> tests = testClient.getAllTest();
+        for(TestDTO t:tests){
+            System.out.println(t.getTestName());
+        }
         assertFalse(tests.isEmpty());
     }
 

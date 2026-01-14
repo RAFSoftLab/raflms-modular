@@ -59,19 +59,23 @@ public class FileRepoService implements ProjectRepoService {
     }
 
     @Override
-    public boolean getRepoExists(String path) {
-        return Files.isDirectory(Path.of(path));
+    public boolean repoExists(String path) {
+        return Files.exists(Path.of(path));
     }
 
     @Override
     public String createStudentRepo(String repoPath, String token) {
-        String studentRepoPath = repoPath+ "studentrepos/" + token;
+        String studentRepoPathStr = repoPath.substring(0,repoPath.lastIndexOf("/"))+ "/studentrepos/" + token;
+        Path studentRepoPath = Path.of(studentRepoPathStr);
+        // da li kopirati projekat,? simulacija git clone-a
+
         try {
-            Files.createDirectories(Path.of(studentRepoPath));
+            Files.createDirectories(studentRepoPath);
+
         } catch (IOException e) {
             log.error(e.getMessage());
         }
-        return studentRepoPath;
+        return studentRepoPathStr;
 
     }
 }

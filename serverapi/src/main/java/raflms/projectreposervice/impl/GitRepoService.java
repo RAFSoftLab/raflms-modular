@@ -65,7 +65,7 @@ public class GitRepoService implements ProjectRepoService {
         return path;
     }
 
-    public boolean getRepoExists(String path) {
+    public boolean repoExists(String path) {
         File f = new File(path);
         return RepositoryCache.FileKey.isGitRepository(f, FS.DETECTED);
     }

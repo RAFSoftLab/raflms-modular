@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import raflms.authorisation.TokenManager;
 import raflms.dtos.StudentAssignmentResponse;
 import raflms.dtos.StudentStartAssignmentRequest;
+import raflms.projectreposervice.ProjectRepoService;
 import raflms.projectreposervice.impl.GitRepoService;
 import raflms.model.Assignment;
 import raflms.model.StudentInfo;
@@ -25,18 +26,17 @@ public class StudentSubmissionService {
 
     private final StudentInfoRepository studentInfoRepo;
     private final AssignmentRepository assigmnetRepo;
-    private final GitRepoService gitReoService;
+    private final ProjectRepoService projectRepoService;
     private final TokenManager tokenManager;
     private final StudentSubmissionRepository studSubmissionRepo;
 
-    public StudentSubmissionService(StudentInfoRepository studentInfoRepo, AssignmentRepository assigmnetRepo, GitRepoService gitReoService, TokenManager tokenManager, StudentSubmissionRepository studSubmissionRepo) {
+    public StudentSubmissionService(StudentInfoRepository studentInfoRepo, AssignmentRepository assigmnetRepo, ProjectRepoService projectRepoService, TokenManager tokenManager, StudentSubmissionRepository studSubmissionRepo) {
         this.studentInfoRepo = studentInfoRepo;
         this.assigmnetRepo = assigmnetRepo;
-        this.gitReoService = gitReoService;
+        this.projectRepoService = projectRepoService;
         this.tokenManager = tokenManager;
         this.studSubmissionRepo = studSubmissionRepo;
     }
-
 
     // ako student ne postoji, dodajemo ga, u krajnjoj verziji treba uvesti provere da ne moze da radi ako nije unet
     public StudentAssignmentResponse studentStartingAssigment(StudentStartAssignmentRequest ssa){
@@ -54,16 +54,16 @@ public class StudentSubmissionService {
             return null;
         }
         Assignment as = ass.get(0);
-        if(!gitReoService.getRepoExists(as.getRepoPath())){
-            log.error(String.format("No git repo found for assignment testName =%s, group=%s, term=%s, gitRepoPatj = %s", ssa.getTestName(), ssa.getGroup(), ssa.getTerm(), as.getRepoPath()));
+        if(!projectRepoService.repoExists(as.getRepoPath())){
+            log.error(String.format("No repo found for assignment testName =%s, group=%s, term=%s, gitRepoPath = %s", ssa.getTestName(), ssa.getGroup(), ssa.getTerm(), as.getRepoPath()));
             return null;
         }
         String token = tokenManager.generateToken();
-        String studentRepoPath = gitReoService.createStudentRepo(as.getRepoPath(),token);
+        String studentRepoPath = projectRepoService.createStudentRepo(as.getRepoPath(),token);
         // StudentInfo student, Assignment assignment, String forkPath, String studentGroup, String token
         StudentSubmission ss = new StudentSubmission(si,as,studentRepoPath,ssa.getStudentGroup(),token);
         ss = studSubmissionRepo.save(ss);
-        StudentAssignmentResponse res = new StudentAssignmentResponse(studentRepoPath,token);
+        StudentAssignmentResponse res = new StudentAssignmentResponse(studentRepoPath,as.getRepoPath(),token);
         return res;
     }
 
