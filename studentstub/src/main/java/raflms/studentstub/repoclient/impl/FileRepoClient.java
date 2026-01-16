@@ -1,7 +1,7 @@
 package raflms.studentstub.repoclient.impl;
 
 import org.zeroturnaround.zip.ZipUtil;
-import raflms.studentstub.api.ConfigFactory;
+import raflms.studentstub.config.ConfigFactory;
 import raflms.studentstub.repoclient.StudentRepoClient;
 import raflms.studentstub.restclient.ProjectFileClient;
 

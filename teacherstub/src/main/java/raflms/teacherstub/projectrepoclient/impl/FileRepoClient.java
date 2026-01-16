@@ -1,7 +1,7 @@
 package raflms.teacherstub.projectrepoclient.impl;
 
 import org.zeroturnaround.zip.ZipUtil;
-import raflms.teacherstub.api.ConfigFactory;
+import raflms.teacherstub.config.ConfigFactory;
 import raflms.teacherstub.projectrepoclient.TeacherRepoClient;
 import raflms.teacherstub.restclient.ProjectFileClient;
 

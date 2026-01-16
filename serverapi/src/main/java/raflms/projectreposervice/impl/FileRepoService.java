@@ -6,12 +6,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import raflms.conf.RAFLMSProperties;
+import raflms.model.StudentInfo;
 import raflms.projectreposervice.ProjectRepoService;
+import raflms.repository.StudentInfoRepository;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 
 @Service
 @Primary
@@ -19,9 +22,11 @@ public class FileRepoService implements ProjectRepoService {
 
     private static final Logger log = LoggerFactory.getLogger(FileRepoService.class);
     private final RAFLMSProperties raflmsProperties;
+    private final StudentInfoRepository studentRepo;
 
-    public FileRepoService(RAFLMSProperties raflmsProperties) {
+    public FileRepoService(RAFLMSProperties raflmsProperties, StudentInfoRepository studRepo) {
         this.raflmsProperties = raflmsProperties;
+        this.studentRepo = studRepo;
     }
 
     @Override
@@ -78,4 +83,16 @@ public class FileRepoService implements ProjectRepoService {
         return studentRepoPathStr;
 
     }
+
+    @Override
+    public String createStudentRepo(String repoPath, int indexNumber, String startYear, String studyProgramShortName, String studentGroup) {
+        StudentInfo s = studentRepo.getStudentInfoForIndex(indexNumber, startYear, studyProgramShortName);
+        String studentRepoName = String.format("%s-%s-%s-%s-%d-%s-%s", studentGroup,s.getFirstName(),s.getLastName(), studyProgramShortName, indexNumber, startYear, LocalDateTime.now().toString());
+        String path = repoPath.substring(0,repoPath.lastIndexOf("/"))+ "/studentrepos/" + studentRepoName;
+        //path = path.replaceAll(" ", "");
+        return path;
+
+    }
+
+
 }

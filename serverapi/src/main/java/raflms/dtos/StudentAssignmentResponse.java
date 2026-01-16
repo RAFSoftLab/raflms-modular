@@ -15,6 +15,11 @@ public class StudentAssignmentResponse {
         this.token = token;
     }
 
+    public StudentAssignmentResponse(String studentFolderPath, String assignmentPath) {
+        this.studentFolderPath = studentFolderPath;
+        this.assignmentPath = assignmentPath;
+    }
+
     public String getStudentFolderPath() {
         return studentFolderPath;
     }

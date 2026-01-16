@@ -1,8 +1,7 @@
 package raflms.teacherstub.restclient;
 
 import org.junit.jupiter.api.Test;
-import raflms.teacherstub.api.ConfigFactory;
-import raflms.teacherstub.config.TeacherStubConfig;
+import raflms.teacherstub.config.ConfigFactory;
 import raflms.teacherstub.dtos.TestDTO;
 
 import java.util.List;

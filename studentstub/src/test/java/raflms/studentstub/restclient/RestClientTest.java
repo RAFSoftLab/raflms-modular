@@ -1,7 +1,7 @@
 package raflms.studentstub.restclient;
 
 import org.junit.jupiter.api.Test;
-import raflms.studentstub.api.ConfigFactory;
+import raflms.studentstub.config.ConfigFactory;
 import raflms.studentstub.dtos.AssignmentResponse;
 import raflms.studentstub.dtos.TestDTO;
 

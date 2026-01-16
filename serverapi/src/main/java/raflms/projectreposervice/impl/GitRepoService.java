@@ -89,4 +89,11 @@ public class GitRepoService implements ProjectRepoService {
         }
         return studentRepoPath;
     }
+
+    @Override
+    public String createStudentRepo(String repoPath, int indexNumber, String startYear, String studyProgramShortName, String studentGroup) {
+        return "";
+    }
+
+
 }

@@ -1,6 +1,7 @@
 package raflms.teacherstub.api;
 
 import org.junit.jupiter.api.Test;
+import raflms.teacherstub.config.ConfigFactory;
 import raflms.teacherstub.config.TeacherStubConfig;
 import raflms.teacherstub.dtos.StudentInfoDTO;
 import raflms.teacherstub.dtos.StudentsForTest;

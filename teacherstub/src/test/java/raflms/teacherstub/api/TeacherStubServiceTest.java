@@ -1,6 +1,7 @@
 package raflms.teacherstub.api;
 
 import org.junit.jupiter.api.Test;
+import raflms.teacherstub.config.ConfigFactory;
 import raflms.teacherstub.config.TeacherStubConfig;
 
 import java.time.LocalDate;
@@ -23,7 +24,7 @@ class TeacherStubServiceTest {
     @Test
     public void testAddAssignment(){
 
-        boolean rez = service.addAssigment( "testoop","grupa4","termin1",
+        boolean rez = service.addAssigment( "testoop","grupa1","termin1",
                 "/home/bojana/Documents/kol1");
         assertTrue(rez);
 

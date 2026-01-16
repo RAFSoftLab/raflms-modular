@@ -21,14 +21,15 @@ public class StudentStubService {
     private String projectRoot = null;
 
 
-
     public StudentStubService(StudentStubConfig config) {
         this.config = config;
         assRestClient = new AssigmentRestClient(config.getBaseApiURL());
         studentRepoClient = new FileRepoClient();
     }
 
-    public boolean startAssigment(StudentStartAssignmentRequest request, String projectRoot){
+
+    public boolean startAssigment(int indexNumber, String startYear, String studyProgramShortName, String studentGroup, String testName, String group, String term, String projectRoot){
+        StudentStartAssignmentRequest request = new StudentStartAssignmentRequest(indexNumber, startYear, studyProgramShortName, studentGroup, testName, group, term);
         StudentAssignmentResponse response = assRestClient.startAssignment(request);
         if(response!=null) {
             this.loggedStudentToken = response.getToken();

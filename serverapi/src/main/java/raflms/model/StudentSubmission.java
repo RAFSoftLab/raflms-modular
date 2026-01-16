@@ -42,6 +42,13 @@ public class StudentSubmission {
         this.token = token;
     }
 
+    public StudentSubmission(StudentInfo student, Assignment assignment, String forkPath, String studentGroup) {
+        this.student = student;
+        this.assignment = assignment;
+        this.forkPath = forkPath;
+        this.studentGroup = studentGroup;
+    }
+
     public Long getId() {
         return id;
     }

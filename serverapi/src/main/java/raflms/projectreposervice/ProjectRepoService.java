@@ -13,4 +13,5 @@ public interface ProjectRepoService {
 
     public String createStudentRepo(String repoPath, String token);
 
+    public String createStudentRepo(String repoPath, int indexNumber, String startYear, String studyProgramShortName, String studentGroup);
 }

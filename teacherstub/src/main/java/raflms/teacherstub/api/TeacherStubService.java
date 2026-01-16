@@ -4,7 +4,6 @@ import raflms.teacherstub.config.TeacherStubConfig;
 import raflms.teacherstub.dtos.*;
 import raflms.teacherstub.projectrepoclient.TeacherRepoClient;
 import raflms.teacherstub.projectrepoclient.impl.FileRepoClient;
-import raflms.teacherstub.projectrepoclient.impl.GitRepoTeacherClient;
 import raflms.teacherstub.restclient.StudentRestClient;
 import raflms.teacherstub.restclient.TestRestClient;
 

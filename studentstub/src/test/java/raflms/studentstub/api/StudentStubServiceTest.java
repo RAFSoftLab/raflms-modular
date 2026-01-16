@@ -1,7 +1,7 @@
 package raflms.studentstub.api;
 
 import org.junit.jupiter.api.Test;
-import raflms.studentstub.dtos.StudentStartAssignmentRequest;
+import raflms.studentstub.config.ConfigFactory;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,8 +11,7 @@ class StudentStubServiceTest {
 
     @Test
     public void testStartAssignemnt(){
-        StudentStartAssignmentRequest sr = new StudentStartAssignmentRequest(7,"2020","RN","102","testoop","grupa4","termin1");
-        boolean ok = studentService.startAssigment(sr,"/home/bojana/raflms/studentprojectroot");
+        boolean ok = studentService.startAssigment(7,"2020","RN","102","testoop","grupa1","termin1","/home/bojana/raflms/studentprojectroot");
         System.out.println(studentService.getLoggedStudentRepoPath());
         assertTrue(ok);
     }

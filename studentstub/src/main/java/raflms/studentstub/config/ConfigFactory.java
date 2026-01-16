@@ -1,6 +1,5 @@
-package raflms.teacherstub.api;
+package raflms.studentstub.config;
 
-import raflms.teacherstub.config.TeacherStubConfig;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -9,10 +8,10 @@ import java.util.Properties;
 
 public class ConfigFactory {
 
-    private static Properties properties = loadProperties("teacherstub.properties");
+    private static Properties properties = loadProperties("studentstub.properties");
 
-    public static TeacherStubConfig createConfig(){
-        return new TeacherStubConfig(properties.getProperty("baseurl.api"));
+    public static StudentStubConfig createConfig(){
+        return new StudentStubConfig(properties.getProperty("baseurl.api"));
     }
 
     private static Properties loadProperties(String fileName) {
