@@ -1,6 +1,0 @@
-{"firstName":"Luka","lastName":"Mitrovic","indexNumber":6,"startYear":"2025","studyProgramShort":"DN"}
-{"firstName":"Luka","lastName":"Mitrovic","indexNumber":6,"startYear":"2025","studyProgramShort":"DN"}
-DN62025
-/Users/lukamitrovic/Desktop/Doktorske/untitled
-
-lmitrovic625dn
