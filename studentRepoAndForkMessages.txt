@@ -1,0 +1,5 @@
+{"message":"\"zadatak-1-92a07e95-c5d5-4895-97d0-0bef6ae2e780.git\""}
+{"message":"\"DN62025ac8c9ccd-8f0c-4973-8876-545df0c2f4dd\""}
+zadatak-1-92a07e95-c5d5-4895-97d0-0bef6ae2e780.git
+DN62025ac8c9ccd-8f0c-4973-8876-545df0c2f4dd
+Exam string: OopZadatak1
