@@ -1,9 +1,11 @@
 package raflms.studentstub.api;
 
 import org.junit.jupiter.api.Test;
+import raflms.studentstub.api.datamodel.TestWithAssignments;
 import raflms.studentstub.config.ConfigFactory;
 
 import java.io.IOException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -42,5 +44,13 @@ class StudentStubServiceTest {
         boolean ok = studentService.submitAssignment(true);
         assertTrue(ok);
     }
+
+    @Test
+    public void test_getAllTestsWithAssignemnts(){
+        List<TestWithAssignments> rez = studentService.getAllTestsWithAssigmentsData();
+        System.out.println(rez);
+        assertFalse(rez.isEmpty());
+    }
+
 
 }
