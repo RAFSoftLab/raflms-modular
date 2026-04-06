@@ -1,3 +1,6 @@
+import org.gradle.kotlin.dsl.named
+import org.springframework.boot.gradle.tasks.bundling.BootJar
+
 plugins {
     id("java")
     id("org.springframework.boot") version "3.5.8"
@@ -9,6 +12,10 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+}
+
+tasks.named<BootJar>("bootJar") {
+    archiveFileName.set("raflms-trackingapi.jar")
 }
 
 dependencies {
