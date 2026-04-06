@@ -29,10 +29,10 @@ class StudentStubServiceTest {
                 "2025",
                 "DN",
                 "102",
-                "testoop",
-                "grupa1",
+                "vezbeoop",
+                "grupOOP",
                 "termin1",
-                "/Users/lukamitrovic/Desktop/Doktorske/tests/rafrootproject");
+                "/home/bojana/Documents/nastava/ООП/zadacivezbe");
         System.out.println(studentService.getLoggedStudentRepoPath());
         assertTrue(ok);
     }

@@ -5,6 +5,7 @@ import org.springframework.data.repository.ListCrudRepository;
 import raflms.model.Assignment;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AssignmentRepository extends ListCrudRepository<Assignment,Long> {
 
