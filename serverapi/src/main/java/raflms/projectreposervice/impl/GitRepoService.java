@@ -16,6 +16,7 @@ import raflms.conf.RAFLMSProperties;
 import raflms.projectreposervice.ProjectRepoService;
 
 import java.io.File;
+import java.time.LocalDateTime;
 
 
 @Service
@@ -91,7 +92,7 @@ public class GitRepoService implements ProjectRepoService {
     }
 
     @Override
-    public String createStudentRepo(String repoPath, int indexNumber, String startYear, String studyProgramShortName, String studentGroup) {
+    public String createStudentRepo(String repoPath, int indexNumber, String startYear, String studyProgramShortName, String studentGroup, LocalDateTime timeOfCloning) {
         return "";
     }
 

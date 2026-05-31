@@ -29,7 +29,7 @@ class StudentStubServiceTest {
                 "2025",
                 "DN",
                 "102",
-                "testoop",
+                "koloop",
                 "grupa1",
                 "termin1",
                 "/home/bojana/Documents/nastava/ООП/zadacivezbe");
@@ -39,8 +39,8 @@ class StudentStubServiceTest {
 
     @Test
     public void submitAssignment(){
-        studentService.setLoggedStudentRepoPath("/home/user/raflms/projectsrootdir/OOP/testoop/grupa1/termin1/studentrepos/7c5d91dd-f398-41ba-b1b3-6cf6c0d4d0ba");
-        studentService.setProjectRoot("/Users/lukamitrovic/Desktop/Doktorske/tests/rafrootproject");
+        studentService.setLoggedStudentRepoPath("/home/bojana/raflms/remote/projectfolder/OOP/koloop/grupa1/termin1/studentrepos/DN-6-2025-Pera-Peric(102)-2026-05-31T21:27:49");
+        studentService.setProjectRoot("/home/bojana/Documents/nastava/ООП/zadacivezbe/");
         boolean ok = studentService.submitAssignment(true);
         assertTrue(ok);
     }

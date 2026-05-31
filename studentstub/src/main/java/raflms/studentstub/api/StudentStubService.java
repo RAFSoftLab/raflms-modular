@@ -65,6 +65,7 @@ public class StudentStubService {
                 this.loggedStudentRepoPath = null;
                 this.loggedStudentToken = null;
             }
+
             return ok;
         }else{
             return studentRepoClient.submitAssignmentProject(loggedStudentRepoPath, projectRoot, false);

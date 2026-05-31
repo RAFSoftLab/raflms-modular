@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import raflms.authorisation.TokenManager;
 import raflms.dtos.StudentAssignmentResponse;
 import raflms.dtos.StudentStartAssignmentRequest;
+import raflms.dtos.StudentSubmissionResponse;
 import raflms.projectreposervice.ProjectRepoService;
 import raflms.projectreposervice.impl.GitRepoService;
 import raflms.model.Assignment;
@@ -15,7 +16,13 @@ import raflms.repository.AssignmentRepository;
 import raflms.repository.StudentInfoRepository;
 import raflms.repository.StudentSubmissionRepository;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentSubmissionService {
@@ -58,16 +65,55 @@ public class StudentSubmissionService {
             log.error(String.format("No repo found for assignment testName =%s, group=%s, term=%s, gitRepoPath = %s", ssa.getTestName(), ssa.getGroup(), ssa.getTerm(), as.getRepoPath()));
             return null;
         }
-        //String token = tokenManager.generateToken();
-        String studentRepoPath = projectRepoService.createStudentRepo(as.getRepoPath(),ssa.getIndexNumber(),ssa.getStartYear(),ssa.getStudyProgramShortName(),ssa.getStudentGroup());
+        LocalDateTime timeOfCloning = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+        String studentRepoPath = projectRepoService.createStudentRepo(as.getRepoPath(),ssa.getIndexNumber(),ssa.getStartYear(),ssa.getStudyProgramShortName(),ssa.getStudentGroup(),timeOfCloning);
 
         //String studentRepoPath = projectRepoService.createStudentRepo(as.getRepoPath(), ssa.getIndexNumber(), ssa.getStartYear(), ssa.getStudyProgramShortName(), ssa.getStudentGroup());
-         StudentSubmission ss = new StudentSubmission(si,as,studentRepoPath,ssa.getStudentGroup());
+        StudentSubmission ss = new StudentSubmission(si,as,studentRepoPath,ssa.getStudentGroup(), timeOfCloning);
         //StudentSubmission ss = new StudentSubmission(si,as,studentRepoPath,ssa.getStudentGroup());
         ss = studSubmissionRepo.save(ss);
         StudentAssignmentResponse res = new StudentAssignmentResponse(studentRepoPath,as.getRepoPath());
         return res;
     }
+
+    public void setSubmissionTimeForRepoPath(String repoPath){
+        StudentSubmission ss = studSubmissionRepo.getStudentSubmissinForRepoPath(repoPath);
+        ss.setTaskSubmittedTime(LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS));
+        ss.setTaskSubmitted(true);
+        studSubmissionRepo.save(ss);
+    }
+
+    public List<StudentSubmissionResponse> getStudentSubmissionsForTestName(String testName){
+        List<StudentSubmissionResponse> retVal = new ArrayList<>();
+        List<StudentSubmission> submissions = studSubmissionRepo.getSubmissionsForTestName(testName);
+        for(StudentSubmission s:submissions){
+            StudentSubmissionResponse sr = new StudentSubmissionResponse(s.getId(),s.getStudent().getFirstName(),s.getStudent().getLastName(),s.getStudent().getIndexNumber(),s.getStudent().getStartYear(),s.getStudent().getStudyProgramShort());
+            sr.setTaskStartedTime(s.getTaskClonedTime());
+            sr.setTaskSubmittedTime(s.getTaskSubmittedTime());
+            sr.setTaskSubmitted(s.isTaskSubmitted());
+            sr.setTestName(s.getAssignment().getTest().getTestName());
+            sr.setGroupLabel(s.getAssignment().getGroupLabel());
+            sr.setStudentGroup(s.getStudentGroup());
+            sr.setTerm(s.getAssignment().getTerm());
+            retVal.add(sr);
+        }
+        return retVal;
+    }
+
+    public String getRepoPathForStudentSubmissionId(Long studSubmissionId){
+        Optional<StudentSubmission> ssOpt = studSubmissionRepo.findById(studSubmissionId);
+        if(ssOpt.isEmpty())
+            return null;
+        else{
+            StudentSubmission ss = ssOpt.get();
+            if(ss.isTaskSubmitted())
+                return ss.getRepoPath();
+            else return null;
+        }
+
+    }
+
+
 
 
 

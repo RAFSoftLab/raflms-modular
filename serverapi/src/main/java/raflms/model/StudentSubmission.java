@@ -2,7 +2,8 @@ package raflms.model;
 
 import jakarta.persistence.*;
 
-import java.sql.Timestamp;
+
+import java.time.LocalDateTime;
 
 @Entity
 public class StudentSubmission {
@@ -16,35 +17,44 @@ public class StudentSubmission {
     @ManyToOne
     private Assignment assignment;
 
-    private String forkPath; // mora da se napravi pre clone-a, moze i profesor
+    private String repoPath; // mora da se napravi pre clone-a, moze i profesor
 
     private String studentGroup;
 
     private boolean cloned;
 
-    private Timestamp taskClonedTime;
+    private LocalDateTime taskClonedTime;
 
     private boolean taskSubmitted;
-    private Timestamp taskSubmittedTime;
+    private LocalDateTime taskSubmittedTime;
 
     private String token;
 
     public StudentSubmission() {
     }
 
-    public StudentSubmission(StudentInfo student, Assignment assignment, String forkPath, String studentGroup, String token) {
+    public StudentSubmission(StudentInfo student, Assignment assignment, String repoPath, String studentGroup, String token) {
         this.student = student;
         this.assignment = assignment;
-        this.forkPath = forkPath;
+        this.repoPath = repoPath;
         this.studentGroup = studentGroup;
         this.token = token;
     }
 
-    public StudentSubmission(StudentInfo student, Assignment assignment, String forkPath, String studentGroup) {
+    public StudentSubmission(StudentInfo student, Assignment assignment, String repoPath, String studentGroup) {
         this.student = student;
         this.assignment = assignment;
-        this.forkPath = forkPath;
+        this.repoPath = repoPath;
         this.studentGroup = studentGroup;
+    }
+
+
+    public StudentSubmission(StudentInfo student, Assignment assignment, String repoPath, String studentGroup, LocalDateTime taskClonedTime) {
+        this.student = student;
+        this.assignment = assignment;
+        this.repoPath = repoPath;
+        this.studentGroup = studentGroup;
+        this.taskClonedTime = taskClonedTime;
     }
 
     public Long getId() {
@@ -79,12 +89,12 @@ public class StudentSubmission {
         this.assignment = assignment;
     }
 
-    public String getForkPath() {
-        return forkPath;
+    public String getRepoPath() {
+        return repoPath;
     }
 
-    public void setForkPath(String forkPath) {
-        this.forkPath = forkPath;
+    public void setRepoPath(String repoPath) {
+        this.repoPath = repoPath;
     }
 
     public boolean isCloned() {
@@ -95,11 +105,11 @@ public class StudentSubmission {
         this.cloned = cloned;
     }
 
-    public Timestamp getTaskClonedTime() {
+    public LocalDateTime getTaskClonedTime() {
         return taskClonedTime;
     }
 
-    public void setTaskClonedTime(Timestamp taskClonedTime) {
+    public void setTaskClonedTime(LocalDateTime taskClonedTime) {
         this.taskClonedTime = taskClonedTime;
     }
 
@@ -111,11 +121,11 @@ public class StudentSubmission {
         this.taskSubmitted = taskSubmitted;
     }
 
-    public Timestamp getTaskSubmittedTime() {
+    public LocalDateTime getTaskSubmittedTime() {
         return taskSubmittedTime;
     }
 
-    public void setTaskSubmittedTime(Timestamp taskSubmittedTime) {
+    public void setTaskSubmittedTime(LocalDateTime taskSubmittedTime) {
         this.taskSubmittedTime = taskSubmittedTime;
     }
 

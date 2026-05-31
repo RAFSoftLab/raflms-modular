@@ -1,5 +1,7 @@
 package raflms.projectreposervice;
 
+import java.time.LocalDateTime;
+
 public interface ProjectRepoService {
 
     String createRepo(String subjectShortName, String testName);
@@ -13,5 +15,5 @@ public interface ProjectRepoService {
 
     public String createStudentRepo(String repoPath, String token);
 
-    public String createStudentRepo(String repoPath, int indexNumber, String startYear, String studyProgramShortName, String studentGroup);
+    public String createStudentRepo(String repoPath, int indexNumber, String startYear, String studyProgramShortName, String studentGroup, LocalDateTime timeOfCloning);
 }

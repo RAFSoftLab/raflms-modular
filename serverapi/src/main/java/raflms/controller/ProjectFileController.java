@@ -71,10 +71,13 @@ public class ProjectFileController {
             Path path = Paths.get(newRepoPath);
             Files.write(path, bytes);
             log.info("File successfully uploaded " + file.getOriginalFilename());
+            studentSubmissionService.setSubmissionTimeForRepoPath(repoPath);
             return true;
 
         } catch (Exception e) {
-            log.error("Upload file failed, empty file:  "+e.getMessage());
+            log.error("Upload file failed\n");
+            e.printStackTrace();
+
             return false;
         }
     }
@@ -92,7 +95,42 @@ public class ProjectFileController {
         try {
             resource = new InputStreamResource(new FileInputStream(file));
         } catch (FileNotFoundException e) {
-            log.error(String.format("File on path $s not found",filePath));
+            log.error(String.format("File on path %s not found",filePath));
+        }
+
+        MediaType mediaType = MediaType.TEXT_PLAIN; // Example
+
+
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"");
+        headers.add(HttpHeaders.CONTENT_TYPE, mediaType.toString());
+        headers.add(HttpHeaders.CONTENT_LENGTH, String.valueOf(file.length()));
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentType(mediaType)
+                .contentLength(file.length())
+                .body(resource);
+    }
+
+    @GetMapping("/download/studentassignment/{id}")
+    public ResponseEntity<Resource> downloadStudentAssignment(@PathVariable Long id) {
+        String filePath = studentSubmissionService.getRepoPathForStudentSubmissionId(id);
+        File fileDir = new File(filePath);
+
+        if (!fileDir.exists() && !fileDir.isDirectory()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        File file = fileDir.listFiles()[0]; // trebalo bi da ima samo jedan file
+
+
+        Resource resource = null;
+        try {
+            resource = new InputStreamResource(new FileInputStream(file));
+        } catch (FileNotFoundException e) {
+            log.error(String.format("File on path %s not found",filePath));
         }
 
         MediaType mediaType = MediaType.TEXT_PLAIN; // Example

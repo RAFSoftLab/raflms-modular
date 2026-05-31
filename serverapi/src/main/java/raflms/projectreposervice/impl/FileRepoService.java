@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Service
 @Primary
@@ -84,11 +85,16 @@ public class FileRepoService implements ProjectRepoService {
     }
 
     @Override
-    public String createStudentRepo(String repoPath, int indexNumber, String startYear, String studyProgramShortName, String studentGroup) {
+    public String createStudentRepo(String repoPath, int indexNumber, String startYear, String studyProgramShortName, String studentGroup, LocalDateTime timeOfCloning) {
         StudentInfo s = studentRepo.getStudentInfoForIndex(indexNumber, startYear, studyProgramShortName);
-        String studentRepoName = String.format("%s-%s-%s-%s-%d-%s-%s", studentGroup,s.getFirstName(),s.getLastName(), studyProgramShortName, indexNumber, startYear, LocalDateTime.now().toString());
+        String studentRepoName = String.format("%s-%d-%s-%s-%s(%s)-%s",studyProgramShortName, indexNumber, startYear, s.getFirstName(),s.getLastName(),studentGroup,timeOfCloning);
         String path = repoPath.substring(0,repoPath.lastIndexOf("/"))+ "/studentrepos/" + studentRepoName;
-        //path = path.replaceAll(" ", "");
+        try {
+            Files.createDirectories(Path.of(path));
+            log.info("Created student repo path: "+path);
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        }
         return path;
     }
 
