@@ -58,11 +58,11 @@ public class StudentSubmissionService {
             log.error(String.format("No repo found for assignment testName =%s, group=%s, term=%s, gitRepoPath = %s", ssa.getTestName(), ssa.getGroup(), ssa.getTerm(), as.getRepoPath()));
             return null;
         }
-        String token = tokenManager.generateToken();
-        String studentRepoPath = projectRepoService.createStudentRepo(as.getRepoPath(),token);
+        //String token = tokenManager.generateToken();
+        String studentRepoPath = projectRepoService.createStudentRepo(as.getRepoPath(),ssa.getIndexNumber(),ssa.getStartYear(),ssa.getStudyProgramShortName(),ssa.getStudentGroup());
 
         //String studentRepoPath = projectRepoService.createStudentRepo(as.getRepoPath(), ssa.getIndexNumber(), ssa.getStartYear(), ssa.getStudyProgramShortName(), ssa.getStudentGroup());
-         StudentSubmission ss = new StudentSubmission(si,as,studentRepoPath,ssa.getStudentGroup(),token);
+         StudentSubmission ss = new StudentSubmission(si,as,studentRepoPath,ssa.getStudentGroup());
         //StudentSubmission ss = new StudentSubmission(si,as,studentRepoPath,ssa.getStudentGroup());
         ss = studSubmissionRepo.save(ss);
         StudentAssignmentResponse res = new StudentAssignmentResponse(studentRepoPath,as.getRepoPath());

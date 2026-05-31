@@ -29,8 +29,8 @@ class StudentStubServiceTest {
                 "2025",
                 "DN",
                 "102",
-                "vezbeoop",
-                "grupOOP",
+                "testoop",
+                "grupa1",
                 "termin1",
                 "/home/bojana/Documents/nastava/ООП/zadacivezbe");
         System.out.println(studentService.getLoggedStudentRepoPath());

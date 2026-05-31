@@ -20,8 +20,6 @@ public class StudentSubmission {
 
     private String studentGroup;
 
-
-
     private boolean cloned;
 
     private Timestamp taskClonedTime;

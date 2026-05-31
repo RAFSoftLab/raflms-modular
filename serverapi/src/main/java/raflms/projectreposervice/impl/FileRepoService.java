@@ -72,7 +72,6 @@ public class FileRepoService implements ProjectRepoService {
     public String createStudentRepo(String repoPath, String token) {
         String studentRepoPathStr = repoPath.substring(0,repoPath.lastIndexOf("/"))+ "/studentrepos/" + token;
         Path studentRepoPath = Path.of(studentRepoPathStr);
-        // da li kopirati projekat,? simulacija git clone-a
 
         try {
             Files.createDirectories(studentRepoPath);
@@ -91,7 +90,6 @@ public class FileRepoService implements ProjectRepoService {
         String path = repoPath.substring(0,repoPath.lastIndexOf("/"))+ "/studentrepos/" + studentRepoName;
         //path = path.replaceAll(" ", "");
         return path;
-
     }
 
 
