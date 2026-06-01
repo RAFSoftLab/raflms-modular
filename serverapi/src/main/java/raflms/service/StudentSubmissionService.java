@@ -66,7 +66,7 @@ public class StudentSubmissionService {
             return null;
         }
         LocalDateTime timeOfCloning = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
-        String studentRepoPath = projectRepoService.createStudentRepo(as.getRepoPath(),ssa.getIndexNumber(),ssa.getStartYear(),ssa.getStudyProgramShortName(),ssa.getStudentGroup(),timeOfCloning);
+        String studentRepoPath = projectRepoService.createStudentRepo(as.getRepoPath(),ssa.getIndexNumber(),ssa.getStartYear(),ssa.getStudyProgramShortName(),ssa.getStudentGroup());
 
         //String studentRepoPath = projectRepoService.createStudentRepo(as.getRepoPath(), ssa.getIndexNumber(), ssa.getStartYear(), ssa.getStudyProgramShortName(), ssa.getStudentGroup());
         StudentSubmission ss = new StudentSubmission(si,as,studentRepoPath,ssa.getStudentGroup(), timeOfCloning);

@@ -16,7 +16,7 @@ class TeacherStubServiceTest {
 
     @Test
     public void testAddTest(){
-        boolean rez = service.addTest("koloop", LocalDate.of(2026,4,6),"OOP","kolokvijum");
+        boolean rez = service.addTest("koloop", LocalDate.of(2026,7,6),"OOP","kolokvijum");
         assertTrue(rez);
     }
 

@@ -24,7 +24,7 @@ public class StudentApiTest {
 
     @Test
     public void testRegisterStudentsForTest(){
-        StudentsForTest st = new StudentsForTest("testoop");
+        StudentsForTest st = new StudentsForTest("koloop");
         StudentInfoDTO st1 = new StudentInfoDTO("Pera", "Peric", 5, "2020","RN");
         StudentInfoDTO st2 = new StudentInfoDTO("Mika", "Mikic", 6, "2021","RN");
         StudentInfoDTO st3 = new StudentInfoDTO("Zika", "Zikic", 7, "2020","RN");

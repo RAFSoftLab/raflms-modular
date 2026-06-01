@@ -25,22 +25,22 @@ class StudentStubServiceTest {
 //                "termin1",
 //                "/Users/lukamitrovic/Desktop/Doktorske/tests/rafrootproject");
         boolean ok = studentService.startAssigment(
-                6,
-                "2025",
-                "DN",
+                5,
+                "2020",
+                "RN",
                 "102",
                 "koloop",
                 "grupa1",
                 "termin1",
-                "/home/bojana/Documents/nastava/ООП/zadacivezbe");
+                "/home/bojana/raflms/studentprojectroot");
         System.out.println(studentService.getLoggedStudentRepoPath());
         assertTrue(ok);
     }
 
     @Test
     public void submitAssignment(){
-        studentService.setLoggedStudentRepoPath("/home/bojana/raflms/remote/projectfolder/OOP/koloop/grupa1/termin1/studentrepos/DN-6-2025-Pera-Peric(102)-2026-05-31T21:27:49");
-        studentService.setProjectRoot("/home/bojana/Documents/nastava/ООП/zadacivezbe/");
+        studentService.setLoggedStudentRepoPath("/home/bojana/raflms/remote/projectfolder/OOP/koloop/grupa1/termin1/studentrepos/RN-5-2020-Pera-Peric(102)");
+        studentService.setProjectRoot("/home/bojana/raflms/studentprojectroot");
         boolean ok = studentService.submitAssignment(true);
         assertTrue(ok);
     }

@@ -92,7 +92,7 @@ public class GitRepoService implements ProjectRepoService {
     }
 
     @Override
-    public String createStudentRepo(String repoPath, int indexNumber, String startYear, String studyProgramShortName, String studentGroup, LocalDateTime timeOfCloning) {
+    public String createStudentRepo(String repoPath, int indexNumber, String startYear, String studyProgramShortName, String studentGroup) {
         return "";
     }
 
