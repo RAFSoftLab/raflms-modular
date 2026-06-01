@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ import java.io.FileNotFoundException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/project")
@@ -117,6 +119,10 @@ public class ProjectFileController {
     @GetMapping("/download/studentassignment/{id}")
     public ResponseEntity<Resource> downloadStudentAssignment(@PathVariable Long id) {
         String filePath = studentSubmissionService.getRepoPathForStudentSubmissionId(id);
+        if(filePath==null) {
+            log.error(String.format("Student nije predao rad"));
+            return null;
+        }
         File fileDir = new File(filePath);
 
         if (!fileDir.exists() && !fileDir.isDirectory()) {
@@ -131,6 +137,7 @@ public class ProjectFileController {
             resource = new InputStreamResource(new FileInputStream(file));
         } catch (FileNotFoundException e) {
             log.error(String.format("File on path %s not found",filePath));
+            return null;
         }
 
         MediaType mediaType = MediaType.TEXT_PLAIN; // Example
