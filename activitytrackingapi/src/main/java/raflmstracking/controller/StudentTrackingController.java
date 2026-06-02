@@ -2,6 +2,8 @@ package raflmstracking.controller;
 
 import raflmstracking.dtos.EventBatchDTO;
 import raflmstracking.dtos.StudentEventDTO;
+import raflmstracking.model.StudentSession;
+import raflmstracking.model.StudentStruggle;
 import org.springframework.web.bind.annotation.*;
 import raflmstracking.service.StudentTrackingService;
 
@@ -26,7 +28,7 @@ public class StudentTrackingController {
     // Get events for a specific student
     @GetMapping("/events/student/{studentId}")
     public List<StudentEventDTO> getStudentEvents(@PathVariable String studentId) {
-       return studentTrackingService.getStudentEventsForId(studentId);
+        return studentTrackingService.getStudentEventsForId(studentId);
     }
 
     // Get events for a specific session
@@ -35,43 +37,34 @@ public class StudentTrackingController {
         return studentTrackingService.getSessionEvents(sessionId);
     }
 
-    /*
-    // Get session summary
+    // Get session summary for a student
     @GetMapping("/sessions/student/{studentId}")
-    public ResponseEntity<ResponseMessage> getStudentSessions(@PathVariable String studentId) {
-        try {
-            List<StudentSession> sessions = studentSessionRepository.findByStudentIdOrderByStartTimeDesc(studentId);
-            return ResponseEntity.ok(new ResponseMessage(gson.toJson(sessions)));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseMessage("Failed to retrieve sessions: " + e.getMessage()));
-        }
+    public List<StudentSession> getStudentSessions(@PathVariable String studentId) {
+        return studentTrackingService.getStudentSessions(studentId);
+    }
+
+    // Get a specific session by sessionId
+    @GetMapping("/sessions/{sessionId}")
+    public StudentSession getSession(@PathVariable String sessionId) {
+        return studentTrackingService.getSession(sessionId);
     }
 
     // Get struggles for a student
     @GetMapping("/struggles/student/{studentId}")
-    public ResponseEntity<ResponseMessage> getStudentStruggles(@PathVariable String studentId) {
-        try {
-            List<StudentStruggle> struggles = studentStruggleRepository.findByStudentIdOrderByStartTimeDesc(studentId);
-            return ResponseEntity.ok(new ResponseMessage(gson.toJson(struggles)));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseMessage("Failed to retrieve struggles: " + e.getMessage()));
-        }
+    public List<StudentStruggle> getStudentStruggles(@PathVariable String studentId) {
+        return studentTrackingService.getStudentStruggles(studentId);
     }
 
-    // Analytics endpoint - high severity struggles
-    @GetMapping("/analytics/struggles/high-severity")
-    public ResponseEntity<ResponseMessage> getHighSeverityStruggles(@RequestParam(defaultValue = "7") Integer minSeverity) {
-        try {
-            List<StudentStruggle> struggles = studentStruggleRepository.findHighSeverityStruggles(minSeverity);
-            return ResponseEntity.ok(new ResponseMessage(gson.toJson(struggles)));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseMessage("Failed to retrieve high severity struggles: " + e.getMessage()));
-        }
+    // Get struggles for a specific session
+    @GetMapping("/struggles/session/{sessionId}")
+    public List<StudentStruggle> getSessionStruggles(@PathVariable String sessionId) {
+        return studentTrackingService.getSessionStruggles(sessionId);
     }
-*/
 
-
+    // Get high-severity struggles (severity >= threshold)
+    @GetMapping("/struggles/high-severity")
+    public List<StudentStruggle> getHighSeverityStruggles(
+            @RequestParam(defaultValue = "7") Integer minSeverity) {
+        return studentTrackingService.getHighSeverityStruggles(minSeverity);
+    }
 }

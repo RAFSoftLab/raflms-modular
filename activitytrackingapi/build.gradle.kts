@@ -4,7 +4,7 @@ import org.springframework.boot.gradle.tasks.bundling.BootJar
 plugins {
     id("java")
     id("org.springframework.boot") version "3.5.8"
-    id ("io.spring.dependency-management") version "1.1.4"
+    id("io.spring.dependency-management") version "1.1.4"
 }
 
 group = "raf.rs"
@@ -28,6 +28,11 @@ dependencies {
     runtimeOnly("com.mysql:mysql-connector-j")
     implementation("com.google.code.gson:gson:2.13.2")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+    // Needed for @WebMvcTest (MockMvc + Mockito)
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    // Needed to serialize/deserialize LocalDateTime in MockMvc tests
+    testImplementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
 }
 
 tasks.test {
