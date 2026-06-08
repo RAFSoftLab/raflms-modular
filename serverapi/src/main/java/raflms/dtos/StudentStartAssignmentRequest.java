@@ -13,6 +13,9 @@ public class StudentStartAssignmentRequest {
     private String group;
     private String term;
 
+    private String lastName;
+    private String firstName;
+
     public StudentStartAssignmentRequest() {
     }
 
@@ -80,5 +83,21 @@ public class StudentStartAssignmentRequest {
 
     public void setStudentGroup(String studentGroup) {
         this.studentGroup = studentGroup;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 }

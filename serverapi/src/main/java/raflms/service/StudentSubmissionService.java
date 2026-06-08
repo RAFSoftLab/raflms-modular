@@ -51,6 +51,10 @@ public class StudentSubmissionService {
         if(si==null){
             log.warn(String.format("Student cannot be found, adding student with index = %s %d/%s",ssa.getStudyProgramShortName(), ssa.getIndexNumber(),ssa.getStartYear()));
             si = new StudentInfo(ssa.getIndexNumber(),ssa.getStartYear(),ssa.getStudyProgramShortName());
+            if(ssa.getFirstName()!=null)
+                si.setFirstName(ssa.getFirstName());
+            if(ssa.getLastName()!=null)
+                si.setLastName(ssa.getLastName());
             si = studentInfoRepo.save(si);
         }
         List<Assignment> ass = assigmnetRepo.findAssignemnt(ssa.getTestName(),ssa.getGroup(),ssa.getTerm());

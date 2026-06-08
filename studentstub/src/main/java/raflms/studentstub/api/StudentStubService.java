@@ -55,6 +55,25 @@ public class StudentStubService {
 
     }
 
+    public boolean startAssigment(int indexNumber, String startYear, String studyProgramShortName, String studentGroup, String firstName, String lastName, String testName, String group, String term, String projectRoot) throws IOException, InterruptedException {
+        StudentStartAssignmentRequest request = new StudentStartAssignmentRequest(indexNumber, startYear, studyProgramShortName, studentGroup, testName, group, term);
+        request.setFirstName(firstName);
+        request.setLastName(lastName);
+        StudentAssignmentResponse response = assRestClient.startAssignment(request);
+        if(response!=null) {
+            this.loggedStudentToken = response.getToken();
+            this.loggedStudentRepoPath = response.getStudentFolderPath();
+            this.projectRoot = projectRoot;
+
+        }else{
+            // TODO log
+            return false;
+        }
+        return studentRepoClient.retrieveAssignmentProject(response.getAssignmentPath(),projectRoot);
+
+    }
+
+
     public boolean submitAssignment(Boolean isFinalSubmission) throws NotAllowedToSubmitProject {
         if(loggedStudentRepoPath==null){
             throw new NotAllowedToSubmitProject("Student nije prijavljen, ne može da pošalje zadatak");
