@@ -26,9 +26,8 @@ public class FileRepoClient implements StudentRepoClient {
 
     @Override
     public boolean submitAssignmentProject(String studentRepoPath, String projectRoot, Boolean isFinalSubmission) {
-        String zipFilePath = projectRoot+"/"+studentRepoPath.substring(studentRepoPath.lastIndexOf("/")+1)+".zip";
-        System.out.println(zipFilePath);
-        ZipUtil.pack(new File(projectRoot), new File(zipFilePath));
+        String zipFilePath = projectRoot.substring(0,projectRoot.lastIndexOf("/"))+"/"+studentRepoPath.substring(studentRepoPath.lastIndexOf("/")+1)+".zip";
+        ZipUtil.pack(new File(projectRoot), new File(zipFilePath),true);
         return projectFileClient.uploadFile(zipFilePath, studentRepoPath, isFinalSubmission);
     }
 }

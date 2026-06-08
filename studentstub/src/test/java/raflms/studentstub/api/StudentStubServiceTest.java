@@ -39,7 +39,7 @@ class StudentStubServiceTest {
 
     @Test
     public void submitAssignment(){
-        studentService.setLoggedStudentRepoPath("/home/user/raflms/projectsrootdir/OOP/koloop/grupa1/termin1/studentrepos/RN-5-2020-Pera-Peric(102)");
+        studentService.setLoggedStudentRepoPath("/home/user/raflms/projectsrootdir/OOP/koloop/grupa1/termin1/studentrepos/RN-6-2021-Mika-Mikic(101)");
         studentService.setProjectRoot("/home/bojana/raflms/studentprojectroot");
         boolean ok = studentService.submitAssignment(true);
         assertTrue(ok);
