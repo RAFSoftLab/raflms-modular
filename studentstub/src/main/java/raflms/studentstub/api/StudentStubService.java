@@ -39,8 +39,9 @@ public class StudentStubService {
     }
 
 
-    public boolean startAssigment(int indexNumber, String startYear, String studyProgramShortName, String studentGroup, String testName, String group, String term, String projectRoot) throws IOException, InterruptedException {
+    public boolean startAssigment(int indexNumber, String startYear, String studyProgramShortName, String studentGroup, String testName, String group, String term, String classroom, String projectRoot) throws IOException, InterruptedException {
         StudentStartAssignmentRequest request = new StudentStartAssignmentRequest(indexNumber, startYear, studyProgramShortName, studentGroup, testName, group, term);
+        request.setClassroom(classroom);
         StudentAssignmentResponse response = assRestClient.startAssignment(request);
         if(response!=null) {
             this.loggedStudentToken = response.getToken();
@@ -55,10 +56,11 @@ public class StudentStubService {
 
     }
 
-    public boolean startAssigment(int indexNumber, String startYear, String studyProgramShortName, String studentGroup, String firstName, String lastName, String testName, String group, String term, String projectRoot) throws IOException, InterruptedException {
+    public boolean startAssigment(int indexNumber, String startYear, String studyProgramShortName, String studentGroup, String firstName, String lastName, String testName, String group, String term, String classroom, String projectRoot) throws IOException, InterruptedException {
         StudentStartAssignmentRequest request = new StudentStartAssignmentRequest(indexNumber, startYear, studyProgramShortName, studentGroup, testName, group, term);
         request.setFirstName(firstName);
         request.setLastName(lastName);
+        request.setClassroom(classroom);
         StudentAssignmentResponse response = assRestClient.startAssignment(request);
         if(response!=null) {
             this.loggedStudentToken = response.getToken();

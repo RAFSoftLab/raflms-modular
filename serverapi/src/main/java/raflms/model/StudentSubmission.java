@@ -30,6 +30,8 @@ public class StudentSubmission {
 
     private String token;
 
+    private String classroom;
+
     public StudentSubmission() {
     }
 
@@ -55,6 +57,15 @@ public class StudentSubmission {
         this.repoPath = repoPath;
         this.studentGroup = studentGroup;
         this.taskClonedTime = taskClonedTime;
+    }
+
+    public StudentSubmission(StudentInfo student, Assignment assignment, String repoPath, String studentGroup, LocalDateTime taskClonedTime, String classroom) {
+        this.student = student;
+        this.assignment = assignment;
+        this.repoPath = repoPath;
+        this.studentGroup = studentGroup;
+        this.taskClonedTime = taskClonedTime;
+        this.classroom = classroom;
     }
 
     public Long getId() {
@@ -135,5 +146,13 @@ public class StudentSubmission {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getClassroom() {
+        return classroom;
+    }
+
+    public void setClassroom(String classroom) {
+        this.classroom = classroom;
     }
 }

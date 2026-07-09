@@ -19,6 +19,7 @@ public class StudentSubmissionResponse {
     private String testName;
     private String term;
     private String groupLabel;
+    private String classroom;
 
     public StudentSubmissionResponse(Long id, String firstName, String lastName, Integer indexNumber, String startYear, String studyProgramShort) {
         this.id = id;
@@ -131,5 +132,13 @@ public class StudentSubmissionResponse {
 
     public void setGroupLabel(String groupLabel) {
         this.groupLabel = groupLabel;
+    }
+
+    public String getClassroom() {
+        return classroom;
+    }
+
+    public void setClassroom(String classroom) {
+        this.classroom = classroom;
     }
 }

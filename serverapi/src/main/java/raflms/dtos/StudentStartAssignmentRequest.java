@@ -16,6 +16,8 @@ public class StudentStartAssignmentRequest {
     private String lastName;
     private String firstName;
 
+    private String classroom;
+
     public StudentStartAssignmentRequest() {
     }
 
@@ -99,5 +101,13 @@ public class StudentStartAssignmentRequest {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    public String getClassroom() {
+        return classroom;
+    }
+
+    public void setClassroom(String classroom) {
+        this.classroom = classroom;
     }
 }

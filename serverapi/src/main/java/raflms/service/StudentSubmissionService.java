@@ -73,7 +73,7 @@ public class StudentSubmissionService {
         String studentRepoPath = projectRepoService.createStudentRepo(as.getRepoPath(),ssa.getIndexNumber(),ssa.getStartYear(),ssa.getStudyProgramShortName(),ssa.getStudentGroup());
 
         //String studentRepoPath = projectRepoService.createStudentRepo(as.getRepoPath(), ssa.getIndexNumber(), ssa.getStartYear(), ssa.getStudyProgramShortName(), ssa.getStudentGroup());
-        StudentSubmission ss = new StudentSubmission(si,as,studentRepoPath,ssa.getStudentGroup(), timeOfCloning);
+        StudentSubmission ss = new StudentSubmission(si,as,studentRepoPath,ssa.getStudentGroup(), timeOfCloning, ssa.getClassroom());
         //StudentSubmission ss = new StudentSubmission(si,as,studentRepoPath,ssa.getStudentGroup());
         ss = studSubmissionRepo.save(ss);
         StudentAssignmentResponse res = new StudentAssignmentResponse(studentRepoPath,as.getRepoPath());
@@ -99,6 +99,7 @@ public class StudentSubmissionService {
             sr.setGroupLabel(s.getAssignment().getGroupLabel());
             sr.setStudentGroup(s.getStudentGroup());
             sr.setTerm(s.getAssignment().getTerm());
+            sr.setClassroom(s.getClassroom());
             retVal.add(sr);
         }
         return retVal;
