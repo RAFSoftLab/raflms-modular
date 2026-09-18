@@ -37,7 +37,7 @@ class StudentStubServiceTest {
                 "101",
                 "koloop",
                 "grupa1",
-                "termin1",
+                "termin",
                 "raf1",
                 "/home/bojana/raflms/studentprojectroot");
         System.out.println(studentService.getLoggedStudentRepoPath());
@@ -48,24 +48,24 @@ class StudentStubServiceTest {
     @Test
     public void testStartAssignementWithName() throws IOException, InterruptedException {
         boolean ok = studentService.startAssigment(
-                20,
+                2300,
                 "2025",
-                "RN",
+                "SI",
                 "101",
-                "Marko",
-                "Markovic",
-                "koloop",
-                "grupa1",
-                "termin1",
+                "Bojana",
+                "DS",
+                "ispitjuloop",
+                "grupa2",
+                "termin",
                 "raf1",
-                "/Users/lukamitrovic/Desktop/untitled");
+                "/home/bojana/raflms/studentprojectroot");
         System.out.println(studentService.getLoggedStudentRepoPath());
         assertTrue(ok);
     }
 
     @Test
     public void submitAssignment(){
-        studentService.setLoggedStudentRepoPath("/home/user/raflms/projectsrootdir/OOP/koloop/grupa1/termin1/studentrepos/RN-7-2020-Zika-Zikic(101)");
+        studentService.setLoggedStudentRepoPath("/home/user/raflms/projectsrootdir/OOP/ispitoop/grupa1/termin/studentrepos/SI-23-2025-Dusan-Krstic(101)");
         studentService.setProjectRoot("/home/bojana/raflms/studentprojectroot");
         boolean ok = studentService.submitAssignment(true);
         assertTrue(ok);

@@ -87,7 +87,7 @@ public class FileRepoService implements ProjectRepoService {
     @Override
     public String createStudentRepo(String repoPath, int indexNumber, String startYear, String studyProgramShortName, String studentGroup) {
         StudentInfo s = studentRepo.getStudentInfoForIndex(indexNumber, startYear, studyProgramShortName);
-        String studentRepoName = String.format("%s-%d-%s-%s-%s(%s)",studyProgramShortName, indexNumber, startYear, s.getFirstName()!=null ? s.getFirstName() : "nepoznato",s.getLastName()!=null ? s.getLastName() : "nepoznato",studentGroup);
+        String studentRepoName = String.format("%s-%d-%s-%s-%s",studyProgramShortName, indexNumber, startYear, s.getFirstName()!=null ? s.getFirstName() : "nepoznato",s.getLastName()!=null ? s.getLastName() : "nepoznato");
         String path = repoPath.substring(0,repoPath.lastIndexOf("/"))+ "/studentrepos/" + studentRepoName;
 
         try {
