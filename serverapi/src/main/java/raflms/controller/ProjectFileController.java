@@ -45,6 +45,37 @@ public class ProjectFileController {
     }
 
     /**
+     * RISK-10 fix: sanitizes the original filename provided by the client.
+     * Removes null bytes, control characters, directory separators, and other
+     * characters that could cause issues on the filesystem or in HTTP headers.
+     * Returns only the last path component (basename), capped at 255 characters.
+     *
+     * @throws SecurityException if the resulting name is empty or suspiciously structured
+     */
+    private String sanitizeFilename(String originalFilename) {
+        if (originalFilename == null || originalFilename.isBlank()) {
+            throw new SecurityException("Naziv fajla je prazan ili null");
+        }
+        // Strip null bytes and control characters
+        String name = originalFilename.replaceAll("[\\x00-\\x1F\\x7F]", "");
+        // Take only the basename (strip any path component the client may have injected)
+        int lastSep = Math.max(name.lastIndexOf('/'), name.lastIndexOf('\\'));
+        if (lastSep >= 0) {
+            name = name.substring(lastSep + 1);
+        }
+        // Allow only safe filename characters: letters, digits, dash, underscore, dot
+        name = name.replaceAll("[^a-zA-Z0-9._\\-]", "_");
+        if (name.isBlank() || name.equals(".") || name.equals("..")) {
+            throw new SecurityException("Naziv fajla nije validan nakon sanitizacije: " + originalFilename);
+        }
+        // Cap length to avoid filesystem limits
+        if (name.length() > 255) {
+            name = name.substring(0, 255);
+        }
+        return name;
+    }
+
+    /**
      * RISK-02 fix: validates that the client-supplied repoPath lies inside the configured
      * project root directory, preventing path-traversal attacks that could delete or overwrite
      * arbitrary server files (e.g. repoPath=/etc or repoPath=/../../../).
@@ -69,21 +100,22 @@ public class ProjectFileController {
             return false;
         }
         try {
+            String safeFilename = sanitizeFilename(file.getOriginalFilename()); // RISK-10 fix
             Path safeRepoPath = validateRepoPath(repoPath); // RISK-02 fix
             FileUtils.cleanDirectory(safeRepoPath.toFile());
             byte[] bytes = file.getBytes();
-            Path path = safeRepoPath.resolve(file.getOriginalFilename()).normalize();
-            if (!path.startsWith(safeRepoPath)) { // double-check filename doesn't escape dir
-                log.error("Suspicious filename rejected: {}", file.getOriginalFilename());
+            Path path = safeRepoPath.resolve(safeFilename).normalize();
+            if (!path.startsWith(safeRepoPath)) {
+                log.error("Filename escape attempt rejected: {}", safeFilename);
                 return false;
             }
             Files.write(path, bytes);
-            log.info("File successfully uploaded " + file.getOriginalFilename());
+            log.info("File successfully uploaded: {}", safeFilename);
             testService.updateRepoPath(repoPath, path.toString());
             return true;
 
         } catch (SecurityException e) {
-            log.error("Upload assignment blocked — path traversal: {}", e.getMessage());
+            log.error("Upload assignment blocked: {}", e.getMessage());
             return false;
         } catch (Exception e) {
             log.error("Upload file failed:  "+e.getMessage());
@@ -98,21 +130,22 @@ public class ProjectFileController {
             return false;
         }
         try {
+            String safeFilename = sanitizeFilename(file.getOriginalFilename()); // RISK-10 fix
             Path safeRepoPath = validateRepoPath(repoPath); // RISK-02 fix
             FileUtils.cleanDirectory(safeRepoPath.toFile());
             byte[] bytes = file.getBytes();
-            Path path = safeRepoPath.resolve(file.getOriginalFilename()).normalize();
-            if (!path.startsWith(safeRepoPath)) { // double-check filename doesn't escape dir
-                log.error("Suspicious filename rejected: {}", file.getOriginalFilename());
+            Path path = safeRepoPath.resolve(safeFilename).normalize();
+            if (!path.startsWith(safeRepoPath)) {
+                log.error("Filename escape attempt rejected: {}", safeFilename);
                 return false;
             }
             Files.write(path, bytes);
-            log.info("File successfully uploaded " + file.getOriginalFilename());
+            log.info("File successfully uploaded: {}", safeFilename);
             studentSubmissionService.setSubmissionTimeForRepoPath(repoPath);
             return true;
 
         } catch (SecurityException e) {
-            log.error("Upload student project blocked — path traversal: {}", e.getMessage());
+            log.error("Upload student project blocked: {}", e.getMessage());
             return false;
         } catch (Exception e) {
             log.error("Upload file failed: {}", e.getMessage());
@@ -127,39 +160,41 @@ public class ProjectFileController {
     @GetMapping("/download/studentassignment/{id}")
     public ResponseEntity<Resource> downloadStudentAssignment(@PathVariable Long id) {
         String filePath = studentSubmissionService.getRepoPathForStudentSubmissionId(id);
-        if(filePath==null) {
-            log.error(String.format("Student nije predao rad"));
-            return null;
+        if (filePath == null) {
+            // RISK-07 fix: vracamo 404 umesto null (null bi izazvao NPE kod pozivaoca)
+            log.warn("Download studentassignment/{}: submission ne postoji ili nije predana", id);
+            return ResponseEntity.notFound().build();
         }
         File fileDir = new File(filePath);
 
-        if (!fileDir.exists() && !fileDir.isDirectory()) {
+        // RISK-07 fix: originalna provera bila je && umesto || pa nikad nije vracala 404
+        if (!fileDir.exists() || !fileDir.isDirectory()) {
+            log.error("Download studentassignment/{}: direktorijum ne postoji: {}", id, filePath);
             return ResponseEntity.notFound().build();
         }
 
-        File file = fileDir.listFiles()[0]; // trebalo bi da ima samo jedan file
+        // RISK-07 fix: listFiles() moze da vrati null (I/O greska) ili prazan niz
+        File[] files = fileDir.listFiles();
+        if (files == null || files.length == 0) {
+            log.error("Download studentassignment/{}: direktorijum je prazan ili nije citljiv: {}", id, filePath);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+        File file = files[0]; // trebalo bi da ima samo jedan file
 
-
-        Resource resource = null;
+        Resource resource;
         try {
             resource = new InputStreamResource(new FileInputStream(file));
         } catch (FileNotFoundException e) {
-            log.error(String.format("File on path %s not found",filePath));
-            return null;
+            log.error("Download studentassignment/{}: fajl nije nadjen: {}", id, file.getAbsolutePath());
+            return ResponseEntity.notFound().build();
         }
 
-        MediaType mediaType = MediaType.TEXT_PLAIN; // Example
-
-
         HttpHeaders headers = new HttpHeaders();
-
         headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"");
-        headers.add(HttpHeaders.CONTENT_TYPE, mediaType.toString());
-        headers.add(HttpHeaders.CONTENT_LENGTH, String.valueOf(file.length()));
 
         return ResponseEntity.ok()
                 .headers(headers)
-                .contentType(mediaType)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .contentLength(file.length())
                 .body(resource);
     }
