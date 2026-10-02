@@ -132,6 +132,13 @@ public class ProjectFileController {
         try {
             String safeFilename = sanitizeFilename(file.getOriginalFilename()); // RISK-10 fix
             Path safeRepoPath = validateRepoPath(repoPath); // RISK-02 fix
+            // RISK-13 fix: proveravamo da repoPath odgovara stvarnoj StudentSubmission u bazi.
+            // Bez ove provere, student bi mogao da navede tuđu putanju unutar projectrootdir
+            // i pregazi tudji rad (IDOR).
+            if (!studentSubmissionService.isValidStudentRepoPath(repoPath)) {
+                log.warn("Upload odbijen — repoPath ne odgovara nijednoj StudentSubmission: {}", repoPath);
+                return false;
+            }
             FileUtils.cleanDirectory(safeRepoPath.toFile());
             byte[] bytes = file.getBytes();
             Path path = safeRepoPath.resolve(safeFilename).normalize();
@@ -153,9 +160,44 @@ public class ProjectFileController {
         }
     }
 
-    // RISK-01 fix: GET /project/download?filePath= removed — accepted arbitrary server paths
-    // from the client (path traversal / arbitrary file read). Use /download/studentassignment/{id}
-    // which resolves the path server-side from the database.
+    // RISK-01 fix (revised): GET /project/download?filePath= vratio je bilo koji fajl sa servera.
+    // Endpoint je neophodan (student plugin ga koristi da preuzme zadatak), ali je sada zaštićen:
+    // - filePath mora biti unutar raflms.projectrootdir (validateRepoPath guard)
+    // - Fajl mora biti ZIP arhiva (jedini tip koji server šalje studentima)
+    // Endpoint ostaje nezasticen tokenom jer ga poziva student bez tokena — ali je napad sada
+    // ogranicen isključivo na fajlove unutar projectrootdir koji su ZIP-ovi.
+    @GetMapping("/download")
+    public ResponseEntity<Resource> downloadFile(@RequestParam String filePath) {
+        Path safePath;
+        try {
+            safePath = validateRepoPath(filePath);
+        } catch (SecurityException | IOException e) {
+            log.warn("Download odbijen — putanja van projectrootdir: {}", filePath);
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        File file = safePath.toFile();
+        if (!file.exists() || !file.isFile()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Resource resource;
+        try {
+            resource = new InputStreamResource(new FileInputStream(file));
+        } catch (FileNotFoundException e) {
+            log.error("Download: fajl nije nadjen: {}", safePath);
+            return ResponseEntity.notFound().build();
+        }
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .contentLength(file.length())
+                .body(resource);
+    }
 
     @GetMapping("/download/studentassignment/{id}")
     public ResponseEntity<Resource> downloadStudentAssignment(@PathVariable Long id) {

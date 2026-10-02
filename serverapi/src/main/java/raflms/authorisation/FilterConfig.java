@@ -44,4 +44,19 @@ public class FilterConfig {
         );
         return registrationBean;
     }
+
+    // RISK-15 fix: rate limiter za nezasticene student endpoint-e.
+    // 30 zahteva / 60 sekundi po IP-u — dovoljno za normalnu upotrebu tokom ispita.
+    @Bean
+    public FilterRegistrationBean<RateLimitFilter> rateLimitFilter() {
+        FilterRegistrationBean<RateLimitFilter> bean = new FilterRegistrationBean<>();
+        bean.setFilter(new RateLimitFilter());
+        bean.addUrlPatterns(
+            "/student/submission/authorizeforasignment",
+            "/project/upload/studentproject",
+            "/project/download"
+        );
+        bean.setOrder(1); // izvrsava se pre token filtera
+        return bean;
+    }
 }

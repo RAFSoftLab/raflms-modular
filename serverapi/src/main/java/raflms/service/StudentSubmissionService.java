@@ -87,6 +87,17 @@ public class StudentSubmissionService {
         studSubmissionRepo.save(ss);
     }
 
+    /**
+     * RISK-13 fix: proverava da li zadana putanja zaista odgovara StudentSubmission
+     * u bazi podataka. Koristi se pre file upload-a da bi se sprecilo da student
+     * uploaduje na tuđu putanju unutar projectrootdir-a.
+     *
+     * @return true ako putanja postoji kao repoPath nekog StudentSubmission zapisa
+     */
+    public boolean isValidStudentRepoPath(String repoPath) {
+        return studSubmissionRepo.getStudentSubmissinForRepoPath(repoPath) != null;
+    }
+
     public List<StudentSubmissionResponse> getStudentSubmissionsForTestName(String testName){
         List<StudentSubmissionResponse> retVal = new ArrayList<>();
         List<StudentSubmission> submissions = studSubmissionRepo.getSubmissionsForTestName(testName);
