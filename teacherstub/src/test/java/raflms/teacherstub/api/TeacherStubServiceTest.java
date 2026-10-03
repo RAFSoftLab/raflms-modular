@@ -16,7 +16,7 @@ class TeacherStubServiceTest {
 
     @Test
     public void testAddTest(){
-        boolean rez = service.addTest("koloop", LocalDate.of(2026,7,6),"OOP","kolokvijum");
+        boolean rez = service.addTest("ispitavgustoop", LocalDate.of(2026,9,2),"OOP","ispit");
         assertTrue(rez);
     }
 
@@ -24,8 +24,8 @@ class TeacherStubServiceTest {
     @Test
     public void testAddAssignment(){
 
-        boolean rez = service.addAssigment( "koloop","grupa1","termin1",
-                "/home/bojana/Documents/nastava/ООП/kolokvijum/2026/kol1");
+        boolean rez = service.addAssigment( "ispitavgustoop","grupa2","termin",
+                "/home/bojana/Documents/nastava/ООП/ispitavgust/pakovanje/OOP-ispitavgust-grupa2");
         assertTrue(rez);
 
 
