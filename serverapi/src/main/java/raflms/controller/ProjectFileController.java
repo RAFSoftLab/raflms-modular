@@ -199,35 +199,33 @@ public class ProjectFileController {
                 .body(resource);
     }
 
-    @GetMapping("/download/studentassignment/{id}")
-    public ResponseEntity<Resource> downloadStudentAssignment(@PathVariable Long id) {
-        String filePath = studentSubmissionService.getRepoPathForStudentSubmissionId(id);
+    // RISK-08 fix: koristi publicId (UUID) umesto sekvencijalnog Long id-a
+    @GetMapping("/download/studentassignment/{publicId}")
+    public ResponseEntity<Resource> downloadStudentAssignment(@PathVariable String publicId) {
+        String filePath = studentSubmissionService.getRepoPathForPublicId(publicId);
         if (filePath == null) {
-            // RISK-07 fix: vracamo 404 umesto null (null bi izazvao NPE kod pozivaoca)
-            log.warn("Download studentassignment/{}: submission ne postoji ili nije predana", id);
+            log.warn("Download studentassignment/{}: submission ne postoji ili nije predana", publicId);
             return ResponseEntity.notFound().build();
         }
         File fileDir = new File(filePath);
 
-        // RISK-07 fix: originalna provera bila je && umesto || pa nikad nije vracala 404
         if (!fileDir.exists() || !fileDir.isDirectory()) {
-            log.error("Download studentassignment/{}: direktorijum ne postoji: {}", id, filePath);
+            log.error("Download studentassignment/{}: direktorijum ne postoji: {}", publicId, filePath);
             return ResponseEntity.notFound().build();
         }
 
-        // RISK-07 fix: listFiles() moze da vrati null (I/O greska) ili prazan niz
         File[] files = fileDir.listFiles();
         if (files == null || files.length == 0) {
-            log.error("Download studentassignment/{}: direktorijum je prazan ili nije citljiv: {}", id, filePath);
+            log.error("Download studentassignment/{}: direktorijum je prazan ili nije citljiv: {}", publicId, filePath);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-        File file = files[0]; // trebalo bi da ima samo jedan file
+        File file = files[0];
 
         Resource resource;
         try {
             resource = new InputStreamResource(new FileInputStream(file));
         } catch (FileNotFoundException e) {
-            log.error("Download studentassignment/{}: fajl nije nadjen: {}", id, file.getAbsolutePath());
+            log.error("Download studentassignment/{}: fajl nije nadjen: {}", publicId, file.getAbsolutePath());
             return ResponseEntity.notFound().build();
         }
 
