@@ -25,4 +25,9 @@ public interface StudentEventRepository extends JpaRepository<StudentEvent, Long
 
     @Query("SELECT COUNT(e) FROM StudentEvent e WHERE e.studentId = :studentId AND e.eventType = :eventType")
     Long countByStudentIdAndEventType(@Param("studentId") String studentId, @Param("eventType") String eventType);
+
+    // RISK-14 (GDPR): brise event-e starije od zadatog datuma
+    @org.springframework.data.jpa.repository.Modifying
+    @Query("DELETE FROM StudentEvent e WHERE e.timestamp < :cutoff")
+    int deleteByTimestampBefore(@Param("cutoff") java.time.LocalDateTime cutoff);
 }
