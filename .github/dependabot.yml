@@ -1,0 +1,15 @@
+# RISK-24 fix: automatska provera ranjivosti zavisnosti na backendu.
+# Student plugin vec ima Dependabot; ovim ga dodajemo i na raflms-modular.
+version: 2
+updates:
+  - package-ecosystem: "gradle"
+    directory: "/serverapi"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: "gradle"
+    directory: "/activitytrackingapi"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
