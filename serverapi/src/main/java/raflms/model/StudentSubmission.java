@@ -2,14 +2,19 @@ package raflms.model;
 
 import jakarta.persistence.*;
 
-
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 public class StudentSubmission {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
+
+    // RISK-08 fix: javni identifikator je UUID — nepredvidiv, ne može se nabrajati.
+    // Long id se čuva interno, ali endpointi za download koriste ovaj UUID.
+    @Column(unique = true, nullable = false, updatable = false)
+    private String publicId;
 
     @ManyToOne
     private StudentInfo student;
@@ -34,6 +39,15 @@ public class StudentSubmission {
 
     public StudentSubmission() {
     }
+
+    @PrePersist
+    private void generatePublicId() {
+        if (publicId == null) {
+            publicId = UUID.randomUUID().toString();
+        }
+    }
+
+    public String getPublicId() { return publicId; }
 
     public StudentSubmission(StudentInfo student, Assignment assignment, String repoPath, String studentGroup, String token) {
         this.student = student;

@@ -1,17 +1,35 @@
 package raflmstracking.dtos;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDateTime;
 import java.util.Map;
 
+// RISK-18 fix: @NotNull/@NotBlank/@Size sprecavaju upis null/praznih/predugackih vrednosti u bazu
 public class StudentEventDTO {
+
+    @NotBlank
+    @Size(max = 64)
     private String studentId;
+
+    @NotBlank
+    @Size(max = 64)
     private String sessionId;
+
+    @NotBlank
+    @Size(max = 64)
     private String eventType;
+
+    @NotNull
     private LocalDateTime timestamp;
+
     private Map<String, Object> eventData;
+
+    @Size(max = 128)
     private String taskId;
 
-    // Constructors
     public StudentEventDTO() {}
 
     public StudentEventDTO(String studentId, String sessionId, String eventType,
@@ -24,7 +42,6 @@ public class StudentEventDTO {
         this.taskId = taskId;
     }
 
-    // Getters and Setters
     public String getStudentId() { return studentId; }
     public void setStudentId(String studentId) { this.studentId = studentId; }
 

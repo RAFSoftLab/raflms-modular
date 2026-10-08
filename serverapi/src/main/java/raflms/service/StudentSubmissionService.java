@@ -3,7 +3,6 @@ package raflms.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import raflms.authorisation.TokenManager;
 import raflms.dtos.StudentAssignmentResponse;
 import raflms.dtos.StudentStartAssignmentRequest;
 import raflms.dtos.StudentSubmissionResponse;
@@ -34,14 +33,12 @@ public class StudentSubmissionService {
     private final StudentInfoRepository studentInfoRepo;
     private final AssignmentRepository assigmnetRepo;
     private final ProjectRepoService projectRepoService;
-    private final TokenManager tokenManager;
     private final StudentSubmissionRepository studSubmissionRepo;
 
-    public StudentSubmissionService(StudentInfoRepository studentInfoRepo, AssignmentRepository assigmnetRepo, ProjectRepoService projectRepoService, TokenManager tokenManager, StudentSubmissionRepository studSubmissionRepo) {
+    public StudentSubmissionService(StudentInfoRepository studentInfoRepo, AssignmentRepository assigmnetRepo, ProjectRepoService projectRepoService, StudentSubmissionRepository studSubmissionRepo) {
         this.studentInfoRepo = studentInfoRepo;
         this.assigmnetRepo = assigmnetRepo;
         this.projectRepoService = projectRepoService;
-        this.tokenManager = tokenManager;
         this.studSubmissionRepo = studSubmissionRepo;
     }
 
@@ -87,6 +84,17 @@ public class StudentSubmissionService {
         studSubmissionRepo.save(ss);
     }
 
+    /**
+     * RISK-13 fix: proverava da li zadana putanja zaista odgovara StudentSubmission
+     * u bazi podataka. Koristi se pre file upload-a da bi se sprecilo da student
+     * uploaduje na tuđu putanju unutar projectrootdir-a.
+     *
+     * @return true ako putanja postoji kao repoPath nekog StudentSubmission zapisa
+     */
+    public boolean isValidStudentRepoPath(String repoPath) {
+        return studSubmissionRepo.getStudentSubmissinForRepoPath(repoPath) != null;
+    }
+
     public List<StudentSubmissionResponse> getStudentSubmissionsForTestName(String testName){
         List<StudentSubmissionResponse> retVal = new ArrayList<>();
         List<StudentSubmission> submissions = studSubmissionRepo.getSubmissionsForTestName(testName);
@@ -105,17 +113,12 @@ public class StudentSubmissionService {
         return retVal;
     }
 
-    public String getRepoPathForStudentSubmissionId(Long studSubmissionId){
-        Optional<StudentSubmission> ssOpt = studSubmissionRepo.findById(studSubmissionId);
-        if(ssOpt.isEmpty())
-            return null;
-        else{
-            StudentSubmission ss = ssOpt.get();
-            if(ss.isTaskSubmitted())
-                return ss.getRepoPath();
-            else return null;
-        }
-
+    // RISK-08 fix: prima publicId (UUID) umesto sekvencijalnog Long id-a
+    public String getRepoPathForPublicId(String publicId) {
+        return studSubmissionRepo.findByPublicId(publicId)
+                .filter(StudentSubmission::isTaskSubmitted)
+                .map(StudentSubmission::getRepoPath)
+                .orElse(null);
     }
 
 

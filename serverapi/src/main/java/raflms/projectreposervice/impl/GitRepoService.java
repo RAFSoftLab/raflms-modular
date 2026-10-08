@@ -40,22 +40,21 @@ public class GitRepoService implements ProjectRepoService {
             Repository repo = git.getRepository();
             return repo.getDirectory().getAbsolutePath();
         } catch (Exception e) {
-            log.error(e.getMessage());
-            e.printStackTrace();
+            // RISK-11 fix: e.printStackTrace() pisalo stack trace na stdout (info disclosure).
+            // Koristimo log.error() koji ide u log fajl, ne u HTTP response.
+            log.error("createRepo({}/{}) failed: {}", subjectShortName, testName, e.getMessage(), e);
         }
         return null;
     }
 
     public String createRepo(String subjectShortName, String testName, String groupLabel, String term) {
         try {
-
             String path = createRepoPath(subjectShortName, testName, groupLabel, term);
             Git git = Git.init().setBare(true).setDirectory(new File(path)).call();
             Repository repo = git.getRepository();
             return repo.getDirectory().getAbsolutePath();
         } catch (Exception e) {
-            log.error(e.getMessage());
-            e.printStackTrace();
+            log.error("createRepo({}/{}/{}/{}) failed: {}", subjectShortName, testName, groupLabel, term, e.getMessage(), e);
         }
         return null;
     }

@@ -17,8 +17,9 @@ public class TrackingRestClient {
     private final HttpClient httpClient;
     private final Gson gson;
     private final String trackingUrl;
+    private final String authToken;
 
-    public TrackingRestClient(String baseApiURL) {
+    public TrackingRestClient(String baseApiURL, String authToken) {
         this.httpClient = HttpClient.newHttpClient();
         this.gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDateTime.class,
@@ -26,6 +27,7 @@ public class TrackingRestClient {
                                 new com.google.gson.JsonPrimitive(src.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)))
                 .create();
         this.trackingUrl = baseApiURL + "/events/batch";
+        this.authToken = authToken;
     }
 
     public boolean sendEventBatch(EventBatchDto batch) {
@@ -35,6 +37,7 @@ public class TrackingRestClient {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(trackingUrl))
                     .header("Content-Type", "application/json")
+                    .header("Authorization", "Bearer " + authToken)
                     .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                     .build();
 

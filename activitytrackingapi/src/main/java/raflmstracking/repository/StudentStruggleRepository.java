@@ -20,4 +20,9 @@ public interface StudentStruggleRepository extends JpaRepository<StudentStruggle
 
     @Query("SELECT s FROM StudentStruggle s WHERE s.severityScore >= :minSeverity ORDER BY s.severityScore DESC, s.startTime DESC")
     List<StudentStruggle> findHighSeverityStruggles(@Param("minSeverity") Integer minSeverity);
+
+    // RISK-14 (GDPR): brise borbe ciji je startTime stariji od zadatog datuma
+    @org.springframework.data.jpa.repository.Modifying
+    @Query("DELETE FROM StudentStruggle s WHERE s.startTime < :cutoff")
+    int deleteByStartTimeBefore(@Param("cutoff") java.time.LocalDateTime cutoff);
 }

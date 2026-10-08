@@ -28,7 +28,7 @@ public class TrackingStubService {
     private String currentTaskId = "";
 
     public TrackingStubService(TrackingStubConfig config) {
-        this.restClient = new TrackingRestClient(config.getBaseApiURL());
+        this.restClient = new TrackingRestClient(config.getBaseApiURL(), config.getAuthToken());
         startScheduledFlush();
     }
 

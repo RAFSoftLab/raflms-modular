@@ -1,5 +1,6 @@
 package raflmstracking.controller;
 
+import jakarta.validation.Valid;
 import raflmstracking.dtos.EventBatchDTO;
 import raflmstracking.dtos.StudentEventDTO;
 import raflmstracking.model.StudentSession;
@@ -21,7 +22,7 @@ public class StudentTrackingController {
 
     // Batch event ingestion endpoint
     @PostMapping("/events/batch")
-    public Boolean ingestEventBatch(@RequestBody EventBatchDTO eventBatch) {
+    public Boolean ingestEventBatch(@Valid @RequestBody EventBatchDTO eventBatch) {
         return studentTrackingService.ingestEventBatch(eventBatch);
     }
 

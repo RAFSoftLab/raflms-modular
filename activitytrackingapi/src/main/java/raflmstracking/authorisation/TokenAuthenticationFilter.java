@@ -1,4 +1,4 @@
-package raflms.authorisation;
+package raflmstracking.authorisation;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-// RISK-04 fix: token vise nije hardkodovan — prima se kroz konstruktor iz
-// FilterConfig-a koji ga injektuje iz raflms.auth.token (env varijabla RAF_AUTH_TOKEN).
+// RISK-06 fix: svi GET endpoint-i koji izlazu podatke o studentima sada zahtevaju
+// Bearer token. Token se injektuje iz raflms.auth.token (env varijabla RAF_AUTH_TOKEN).
 public class TokenAuthenticationFilter implements Filter {
 
     private static final Logger log = LoggerFactory.getLogger(TokenAuthenticationFilter.class);
