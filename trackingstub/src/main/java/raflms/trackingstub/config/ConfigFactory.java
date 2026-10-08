@@ -10,7 +10,10 @@ public class ConfigFactory {
     private static final Properties properties = loadProperties("trackingstub.properties");
 
     public static TrackingStubConfig createConfig() {
-        return new TrackingStubConfig(properties.getProperty("baseurl.api"));
+        return new TrackingStubConfig(
+                properties.getProperty("baseurl.api"),
+                properties.getProperty("auth.token")
+        );
     }
 
     private static Properties loadProperties(String fileName) {
