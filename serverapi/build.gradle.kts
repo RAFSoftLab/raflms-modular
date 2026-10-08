@@ -31,7 +31,7 @@ dependencies {
     implementation("org.eclipse.jgit:org.eclipse.jgit:7.5.0.202512021534-r")
     implementation("com.fasterxml.jackson.core:jackson-databind")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    implementation("commons-io:commons-io:2.21.0")
+    implementation("commons-io:commons-io:2.22.0")
 
 }
 
