@@ -28,7 +28,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     runtimeOnly("com.mysql:mysql-connector-j")
-    implementation("org.eclipse.jgit:org.eclipse.jgit:7.5.0.202512021534-r")
+    implementation("org.eclipse.jgit:org.eclipse.jgit:7.8.0.202609011348-r")
     implementation("com.fasterxml.jackson.core:jackson-databind")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     implementation("commons-io:commons-io:2.21.0")
