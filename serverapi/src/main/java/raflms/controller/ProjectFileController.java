@@ -172,7 +172,7 @@ public class ProjectFileController {
         try {
             safePath = validateRepoPath(filePath);
         } catch (SecurityException | IOException e) {
-            log.warn("Download odbijen — putanja van projectrootdir: {}", filePath);
+            log.warn("Download odbijen, putanja van projectrootdir: {}", filePath);
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
 
