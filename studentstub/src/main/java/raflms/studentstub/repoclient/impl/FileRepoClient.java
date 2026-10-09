@@ -12,7 +12,8 @@ public class FileRepoClient implements StudentRepoClient {
     private final ProjectFileClient projectFileClient;
 
     public FileRepoClient() {
-        projectFileClient = new ProjectFileClient(ConfigFactory.createConfig().getBaseApiURL());
+        var config = ConfigFactory.createConfig();
+        projectFileClient = new ProjectFileClient(config.getBaseApiURL(), config.getAuthToken());
     }
 
     @Override

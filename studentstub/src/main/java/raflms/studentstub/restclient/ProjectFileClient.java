@@ -14,10 +14,12 @@ public class ProjectFileClient {
 
     private final HttpClient httpClient;
     private final String projectUrl;
+    private final String authToken;
 
-    public ProjectFileClient(String baseURL) {
+    public ProjectFileClient(String baseURL, String authToken) {
         this.httpClient = HttpClient.newHttpClient();
         this.projectUrl = baseURL + "/project";
+        this.authToken = authToken;
     }
 
     public String downloadFile(String assignmentRepoPath, String projectRoot) {
@@ -27,6 +29,7 @@ public class ProjectFileClient {
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(url))
+                    .header("Authorization", "Bearer " + authToken)
                     .GET()
                     .build();
 
@@ -84,6 +87,7 @@ public class ProjectFileClient {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(url))
                     .header("Content-Type", "multipart/form-data; boundary=" + boundary)
+                    .header("Authorization", "Bearer " + authToken)
                     .POST(HttpRequest.BodyPublishers.ofByteArray(bos.toByteArray()))
                     .build();
 

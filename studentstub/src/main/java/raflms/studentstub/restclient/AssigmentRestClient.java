@@ -14,13 +14,14 @@ public class AssigmentRestClient {
 
     private final HttpClient httpClient;
     private final Gson gson;
-
     private final String submissionUrl;
+    private final String authToken;
 
-    public AssigmentRestClient(String baseURL) {
+    public AssigmentRestClient(String baseURL, String authToken) {
         this.httpClient = HttpClient.newHttpClient();
         this.gson = new Gson();
         this.submissionUrl = baseURL + "/student/submission";
+        this.authToken = authToken;
     }
 
     public StudentAssignmentResponse startAssignment(StudentStartAssignmentRequest request)
@@ -31,6 +32,7 @@ public class AssigmentRestClient {
         HttpRequest httpRequest = HttpRequest.newBuilder()
                 .uri(URI.create(submissionUrl + "/authorizeforasignment"))
                 .header("Content-Type", "application/json")
+                .header("Authorization", "Bearer " + authToken)
                 .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
 
