@@ -11,7 +11,10 @@ public class ConfigFactory {
     private static Properties properties = loadProperties("studentstub.properties");
 
     public static StudentStubConfig createConfig(){
-        return new StudentStubConfig(properties.getProperty("baseurl.api"));
+        return new StudentStubConfig(
+                properties.getProperty("baseurl.api"),
+                properties.getProperty("auth.token")
+        );
     }
 
     private static Properties loadProperties(String fileName) {

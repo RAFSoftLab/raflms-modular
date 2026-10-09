@@ -33,9 +33,9 @@ public class StudentStubService {
 
     public StudentStubService(StudentStubConfig config) {
         this.config = config;
-        assRestClient = new AssigmentRestClient(config.getBaseApiURL());
+        assRestClient = new AssigmentRestClient(config.getBaseApiURL(), config.getAuthToken());
         studentRepoClient = new FileRepoClient();
-        testRestClient = new TestRestClient(config.getBaseApiURL());
+        testRestClient = new TestRestClient(config.getBaseApiURL(), config.getAuthToken());
     }
 
 

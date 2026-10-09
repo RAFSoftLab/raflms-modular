@@ -21,19 +21,22 @@ public class TestRestClient {
     private final HttpClient httpClient;
     private final Gson gson;
     private final String testUrl;
+    private final String authToken;
 
-    public TestRestClient(String baseURL) {
+    public TestRestClient(String baseURL, String authToken) {
         this.httpClient = HttpClient.newHttpClient();
         this.gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter().nullSafe())
                 .create();
         this.testUrl = baseURL + "/test";
+        this.authToken = authToken;
     }
 
     public List<TestDTO> getAllTest() {
         try {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(testUrl + "/all"))
+                    .header("Authorization", "Bearer " + authToken)
                     .GET()
                     .build();
 
@@ -56,6 +59,7 @@ public class TestRestClient {
         try {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(testUrl + "/" + testName + "/assignments"))
+                    .header("Authorization", "Bearer " + authToken)
                     .GET()
                     .build();
 
