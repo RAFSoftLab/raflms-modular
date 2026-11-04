@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 // Zasticeni (samo nastavnik/admin):
 //   GET /tracking/events/*        - citanje dogadjaja po studentu ili sesiji
 //   GET /tracking/sessions/*      - citanje sesija
-//   GET /tracking/struggles/*     - citanje borbi
+//   GET /tracking/struggles/*     - citanje struggles
 @Configuration
 public class FilterConfig {
 
