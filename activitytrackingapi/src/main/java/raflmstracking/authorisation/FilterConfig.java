@@ -17,20 +17,22 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class FilterConfig {
 
-    @Value("${raflms.auth.token}")
-    private String authToken;
+    // TODO: RISK-06 — privremeno zakomentarisano
+//    @Value("${raflms.auth.token}")
+//    private String authToken;
 
-    @Bean
-    public FilterRegistrationBean<TokenAuthenticationFilter> trackingAuthFilter() {
-        FilterRegistrationBean<TokenAuthenticationFilter> registrationBean = new FilterRegistrationBean<>();
-        registrationBean.setFilter(new TokenAuthenticationFilter(authToken));
-        registrationBean.addUrlPatterns(
-            "/tracking/events/student/*",
-            "/tracking/events/session/*",
-            "/tracking/sessions/student/*",
-            "/tracking/sessions/*",
-            "/tracking/struggles/*"
-        );
-        return registrationBean;
-    }
+    // TODO: RISK-06 — privremeno zakomentarisano
+//    @Bean
+//    public FilterRegistrationBean<TokenAuthenticationFilter> trackingAuthFilter() {
+//        FilterRegistrationBean<TokenAuthenticationFilter> registrationBean = new FilterRegistrationBean<>();
+//        registrationBean.setFilter(new TokenAuthenticationFilter(authToken));
+//        registrationBean.addUrlPatterns(
+//            "/tracking/events/student/*",
+//            "/tracking/events/session/*",
+//            "/tracking/sessions/student/*",
+//            "/tracking/sessions/*",
+//            "/tracking/struggles/*"
+//        );
+//        return registrationBean;
+//    }
 }
