@@ -12,7 +12,7 @@ public class ConfigFactory {
     public static TrackingStubConfig createConfig() {
         return new TrackingStubConfig(
                 properties.getProperty("baseurl.api"),
-                properties.getProperty("auth.token")
+                System.getenv("RAF_AUTH_TOKEN")
         );
     }
 

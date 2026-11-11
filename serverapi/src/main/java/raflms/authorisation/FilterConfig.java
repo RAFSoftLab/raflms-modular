@@ -24,26 +24,28 @@ public class FilterConfig {
     //   /project/upload/assignment
     //   /project/download/studentassignment/*
     //   /student/submission/allfortest
-    @Value("${raflms.auth.token}")
-    private String authToken;
+    // TODO: RISK-04 — privremeno zakomentarisano
+//    @Value("${raflms.auth.token}")
+//    private String authToken;
 
-    @Bean
-    public FilterRegistrationBean<TokenAuthenticationFilter> tokenAuthenticationFilter() {
-        FilterRegistrationBean<TokenAuthenticationFilter> registrationBean = new FilterRegistrationBean<>();
-        registrationBean.setFilter(new TokenAuthenticationFilter(authToken));
-        registrationBean.addUrlPatterns(
-            "/student/add",
-            "/student/all",
-            "/student/registerfortest",
-            "/student/registerallfortest",
-            "/subject/*",
-            "/test/*",
-            "/project/upload/assignment",
-            "/project/download/studentassignment/*",
-            "/student/submission/allfortest"
-        );
-        return registrationBean;
-    }
+    // TODO: RISK-04 — privremeno zakomentarisano
+//    @Bean
+//    public FilterRegistrationBean<TokenAuthenticationFilter> tokenAuthenticationFilter() {
+//        FilterRegistrationBean<TokenAuthenticationFilter> registrationBean = new FilterRegistrationBean<>();
+//        registrationBean.setFilter(new TokenAuthenticationFilter(authToken));
+//        registrationBean.addUrlPatterns(
+//            "/student/add",
+//            "/student/all",
+//            "/student/registerfortest",
+//            "/student/registerallfortest",
+//            "/subject/*",
+//            "/test/*",
+//            "/project/upload/assignment",
+//            "/project/download/studentassignment/*",
+//            "/student/submission/allfortest"
+//        );
+//        return registrationBean;
+//    }
 
     // RISK-15 fix: rate limiter za nezasticene student endpoint-e.
     // 30 zahteva / 60 sekundi po IP-u — dovoljno za normalnu upotrebu tokom ispita.
